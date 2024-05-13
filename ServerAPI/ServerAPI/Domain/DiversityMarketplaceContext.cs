@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServerAPI.Domain
 {
@@ -9,5 +9,6 @@ namespace ServerAPI.Domain
         public DbSet<User> Users { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
