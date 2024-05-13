@@ -7,5 +7,6 @@ namespace ServerAPI.Domain
         public DiversityMarketplaceContext(DbContextOptions<DiversityMarketplaceContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
