@@ -12,7 +12,7 @@ using ServerAPI.Domain;
 namespace ServerAPI.Migrations
 {
     [DbContext(typeof(DiversityMarketplaceContext))]
-    [Migration("20240513190425_InitialCreate")]
+    [Migration("20240513191643_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -76,6 +76,37 @@ namespace ServerAPI.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Bids");
+                });
+
+            modelBuilder.Entity("ServerAPI.Domain.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ServerAPI.Domain.User", b =>
