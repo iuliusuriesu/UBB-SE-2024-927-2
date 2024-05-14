@@ -1,0 +1,42 @@
+﻿<Window x:Class="Client.View.SignUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.View"
+        mc:Ignorable="d"
+        Title="SignUpWindow" Height="450" Width="800">
+    
+    <Grid Background="#FFEE9191">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Sign Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"/>
+        <Label Content="Username:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"/>
+        <TextBox x:Name="SignUpUsernameTextBox" Grid.Row="1" Grid.Column="0" Height="25" Width="200"></TextBox>
+        <Label Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" Grid.Row="2" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"/>
+        <TextBox x:Name="SignUpPasswordTextBox" Grid.Row="2" Grid.Column="0" Height="25" Width="200"></TextBox>
+        <Label Content="Confirm Password:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" Grid.Row="3" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"/>
+        <TextBox x:Name="SignUpConfirmPasswordTextBox" Grid.Row="3" Grid.Column="0" Height="25" Width="200"></TextBox>
+        <Label Content="Nickname:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" Grid.Row="4" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"/>
+        <TextBox x:Name="SignUpNicknameTextBox" Grid.Row="4" Grid.Column="0" Height="25" Width="200"></TextBox>
+        <Label Content="Account Type:" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="5" FontSize="30" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"></Label>
+        <ComboBox x:Name="SignUpAccountTypeComboBox" Grid.Row="5" Grid.Column="0" Height="25" Width="200">
+            <ComboBoxItem Content="Admin"></ComboBoxItem>
+            <ComboBoxItem Content="Basic"></ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="SignUpButton" Content="Sign Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Grid.Row="6" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="White" Background="#FFD4C0C0" Click="SignUpButton_Click" Height="40" Width="130"/>
+    </Grid>
+    
+</Window>
