@@ -42,8 +42,8 @@ namespace Client.View
                 return;
             }
 
-            var drugMarketplaceWindow = _windowFactory.CreateDrugMarketplaceWindow(username);
-            drugMarketplaceWindow.Show();
+            var mainWindow = _windowFactory.CreateMainWindow(username);
+            mainWindow.Show();
             this.Close();
         }
 

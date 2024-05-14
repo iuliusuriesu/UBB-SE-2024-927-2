@@ -1,4 +1,5 @@
 ﻿using Client.Model.Services;
+using Client.View.AdminBiddingView;
 using Client.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -37,6 +38,21 @@ namespace Client.View.WindowFactory
         {
             var authenticationService = serviceProvider.GetRequiredService<IAuthenticationService>();
             return new SignUpWindow(this, authenticationService);
+        }
+
+        public MainWindow CreateMainWindow(string username)
+        {
+            return new MainWindow(this, username);
+        }
+
+        public AdminLiveAuctionWindow CreateAdminLiveAuctionWindow()
+        {
+            return new AdminLiveAuctionWindow(this);
+        }
+
+        public AddAuctionWindow CreateAddAuctionWindow()
+        {
+            return new AddAuctionWindow(this);
         }
     }
 }
