@@ -28,5 +28,16 @@ namespace Client.View.AdminBiddingView
 
             InitializeComponent();
         }
+
+        private void CancelAddAuction(object sender, RoutedEventArgs e)
+        {
+            var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();
+            adminLiveAuctionWindow.Show();
+            this.Close();
+        }
+
+        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

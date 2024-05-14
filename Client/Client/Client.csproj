@@ -86,6 +86,21 @@
     <Compile Include="ViewModel\IShoppingCartViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\ShoppingCartViewModel.cs" />
+    <Compile Include="View\AdminBiddingView\AddAuctionWindow.xaml.cs">
+      <DependentUpon>AddAuctionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AdminBiddingView\AdminLiveAuctionWindow.xaml.cs">
+      <DependentUpon>AdminLiveAuctionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BasicUserBiddingView\AuctionDetailsWindow.xaml.cs">
+      <DependentUpon>AuctionDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BasicUserBiddingView\EnterAuctionWindow.xaml.cs">
+      <DependentUpon>EnterAuctionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BasicUserBiddingView\UserLiveAuctionWindow.xaml.cs">
+      <DependentUpon>UserLiveAuctionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DrugMarketplaceWindow.xaml.cs">
       <DependentUpon>DrugMarketplaceWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +122,26 @@
     </Compile>
     <Compile Include="View\WindowFactory\IWindowFactory.cs" />
     <Compile Include="View\WindowFactory\WindowFactory.cs" />
+    <Page Include="View\AdminBiddingView\AddAuctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AdminBiddingView\AdminLiveAuctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BasicUserBiddingView\AuctionDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BasicUserBiddingView\EnterAuctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BasicUserBiddingView\UserLiveAuctionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DrugMarketplaceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

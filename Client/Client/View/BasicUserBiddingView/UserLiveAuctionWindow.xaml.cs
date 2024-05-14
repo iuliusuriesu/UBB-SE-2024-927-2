@@ -28,5 +28,27 @@ namespace Client.View.BasicUserBiddingView
 
             InitializeComponent();
         }
+
+        private void NavigateToDetailsPage()
+        {
+            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow();
+            auctionDetailsWindow.Show();
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateToDetailsPage();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            NavigateToDetailsPage();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            NavigateToDetailsPage();
+        }
     }
 }

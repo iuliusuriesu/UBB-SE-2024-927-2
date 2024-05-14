@@ -43,7 +43,8 @@ namespace Client.View.WindowFactory
 
         public MainWindow CreateMainWindow(string username)
         {
-            return new MainWindow(this, username);
+            var authenticationService = serviceProvider.GetRequiredService<IAuthenticationService>();
+            return new MainWindow(this, authenticationService, username);
         }
 
         public AdminLiveAuctionWindow CreateAdminLiveAuctionWindow()

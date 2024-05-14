@@ -41,6 +41,12 @@ namespace Client.Model.Services
             _userRepository.AddUser(user);
         }
 
+        public string GetUserType(string username)
+        {
+            User user = this.GetUserByUsername(username);
+            return user.UserType;
+        }
+
         private User GetUserByUsername(string username)
         {
             List<User> allUsers = _userRepository.GetAllUsers();

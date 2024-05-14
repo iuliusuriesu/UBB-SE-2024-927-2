@@ -10,5 +10,6 @@ namespace Client.Model.Services
     {
         bool AuthenticateUser(string username, string password);
         void CreateUser(string username, string password, string nickname, string userType);
+        string GetUserType(string username);
     }
 }

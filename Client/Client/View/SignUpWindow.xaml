@@ -33,8 +33,8 @@
         <TextBox x:Name="SignUpNicknameTextBox" Grid.Row="4" Grid.Column="0" Height="25" Width="200"></TextBox>
         <Label Content="Account Type:" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="5" FontSize="30" FontFamily="Microsoft Sans Serif" Foreground="WhiteSmoke"></Label>
         <ComboBox x:Name="SignUpAccountTypeComboBox" Grid.Row="5" Grid.Column="0" Height="25" Width="200">
-            <ComboBoxItem Content="Admin"></ComboBoxItem>
-            <ComboBoxItem Content="Basic"></ComboBoxItem>
+            <ComboBoxItem Content="admin"></ComboBoxItem>
+            <ComboBoxItem Content="basic"></ComboBoxItem>
         </ComboBox>
         <Button x:Name="SignUpButton" Content="Sign Up" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Grid.Row="6" Grid.Column="0" Margin="0,0,0,0" FontFamily="Microsoft Sans Serif" Foreground="White" Background="#FFD4C0C0" Click="SignUpButton_Click" Height="40" Width="130"/>
     </Grid>

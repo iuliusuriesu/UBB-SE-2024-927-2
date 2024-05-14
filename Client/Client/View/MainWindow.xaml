@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Drug Marketplace" Margin="5" Padding="10" Click="DrugMarketplaceButton_Click"/>
+            <Button Content="Auctions" Margin="5" Padding="10" Click="AuctionsButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

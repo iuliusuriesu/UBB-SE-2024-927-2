@@ -1,17 +1,6 @@
-﻿using Client.View.WindowFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Client.Model.Services;
+using Client.View.WindowFactory;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Client.View
 {
@@ -21,14 +10,40 @@ namespace Client.View
     public partial class MainWindow : Window
     {
         private IWindowFactory _windowFactory;
+        private IAuthenticationService _authenticationService;
         private string _username;
 
-        public MainWindow(IWindowFactory windowFactory, string username)
+        public MainWindow(IWindowFactory windowFactory, IAuthenticationService authenticationService, string username)
         {
             this._windowFactory = windowFactory;
+            this._authenticationService = authenticationService;
             this._username = username;
 
             InitializeComponent();
+        }
+
+        private void DrugMarketplaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var drugMarketplaceWindow = _windowFactory.CreateDrugMarketplaceWindow(_username);
+            drugMarketplaceWindow.Show();
+            this.Close();
+        }
+
+        private void AuctionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            string userType = _authenticationService.GetUserType(_username);
+            if (userType == "admin")
+            {
+                var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();
+                adminLiveAuctionWindow.Show();
+            }
+            else
+            {
+                var userLiveAuctionWindow = _windowFactory.CreateUserLiveAuctionWindow();
+                userLiveAuctionWindow.Show();
+            }
+
+            this.Close();
         }
     }
 }

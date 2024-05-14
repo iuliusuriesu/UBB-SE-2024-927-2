@@ -28,5 +28,19 @@ namespace Client.View.BasicUserBiddingView
 
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var userLiveAuctionWindow = _windowFactory.CreateUserLiveAuctionWindow();
+            userLiveAuctionWindow.Show();
+            this.Close();
+        }
+
+        private void JoinAuction(object sender, RoutedEventArgs e)
+        {
+            var enterAuctionWindow = _windowFactory.CreateEnterAuctionWindow();
+            enterAuctionWindow.Show();
+            this.Close();
+        }
     }
 }

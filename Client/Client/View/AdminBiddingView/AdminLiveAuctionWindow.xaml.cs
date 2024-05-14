@@ -28,5 +28,19 @@ namespace Client.View.AdminBiddingView
 
             InitializeComponent();
         }
+
+        private void EnterAuction(object sender, RoutedEventArgs e)
+        {
+            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow();
+            auctionDetailsWindow.Show();
+            this.Close();
+        }
+
+        private void AddAuction(object sender, RoutedEventArgs e)
+        {
+            var addAuctionWindow = _windowFactory.CreateAddAuctionWindow();
+            addAuctionWindow.Show();
+            this.Close();
+        }
     }
 }
