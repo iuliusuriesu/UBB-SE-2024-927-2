@@ -25,7 +25,6 @@ namespace Client.View.BasicUserBiddingView
         public AuctionDetailsWindow(IWindowFactory windowFactory)
         {
             this._windowFactory = windowFactory;
-
             InitializeComponent();
         }
 

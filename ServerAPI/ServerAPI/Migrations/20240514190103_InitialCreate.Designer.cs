@@ -12,7 +12,7 @@ using ServerAPI.Domain;
 namespace ServerAPI.Migrations
 {
     [DbContext(typeof(DiversityMarketplaceContext))]
-    [Migration("20240513191643_InitialCreate")]
+    [Migration("20240514190103_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
