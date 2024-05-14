@@ -1,4 +1,5 @@
 ﻿using Client.Model.Services;
+using Client.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -16,7 +17,8 @@ namespace Client.View.WindowFactory
         public DrugMarketplaceWindow CreateDrugMarketplaceWindow(string username)
         {
             var drugMarketplaceService = serviceProvider.GetRequiredService<IDrugMarketplaceService>();
-            return new DrugMarketplaceWindow(this, drugMarketplaceService, username);
+            var productViewModel = serviceProvider.GetRequiredService<IProductViewModel>();
+            return new DrugMarketplaceWindow(this, drugMarketplaceService, productViewModel, username);
         }
 
         public LogInWindow CreateLogInWindow()
@@ -27,8 +29,8 @@ namespace Client.View.WindowFactory
 
         public ShoppingCartWindow CreateShoppingCartWindow(string username)
         {
-            var drugMarketplaceService = serviceProvider.GetRequiredService<IDrugMarketplaceService>();
-            return new ShoppingCartWindow(this, drugMarketplaceService, username);
+            var shoppingCartViewModel = serviceProvider.GetRequiredService<IShoppingCartViewModel>();
+            return new ShoppingCartWindow(this, shoppingCartViewModel, username);
         }
 
         public SignUpWindow CreateSignUpWindow()

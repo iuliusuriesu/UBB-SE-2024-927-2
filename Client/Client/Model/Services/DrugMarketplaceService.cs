@@ -23,6 +23,14 @@ namespace Client.Model.Services
 
         public void AddToShoppingCart(int productId)
         {
+            foreach (Product currentProduct in _shoppingCart)
+            {
+                if (currentProduct.ProductID == productId)
+                {
+                    throw new Exception("Product already added to cart!");
+                }
+            }
+
             Product product = _productRepository.GetProduct(productId);
             _shoppingCart.Add(product);
         }

@@ -82,6 +82,10 @@
     <Compile Include="Model\Services\DrugMarketplaceService.cs" />
     <Compile Include="Model\Services\IAuthenticationService.cs" />
     <Compile Include="Model\Services\IDrugMarketplaceService.cs" />
+    <Compile Include="ViewModel\IProductViewModel.cs" />
+    <Compile Include="ViewModel\IShoppingCartViewModel.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\ShoppingCartViewModel.cs" />
     <Compile Include="View\DrugMarketplaceWindow.xaml.cs">
       <DependentUpon>DrugMarketplaceWindow.xaml</DependentUpon>
     </Compile>
@@ -145,9 +149,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />

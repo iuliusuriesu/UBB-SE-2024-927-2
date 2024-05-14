@@ -20,12 +20,12 @@
 
         <Button x:Name="CheckoutButton" Grid.Column="1" Grid.Row="0" Content="Checkout" Width="100" Height="100" Click="CheckoutButton_Click"/>
         <Button x:Name="BackToMainMenuButton" Grid.Column="1" Grid.Row="1" Content="Main Menu" Width="100" Height="100" Click="BackToMainMenuButton_Click"/>
-        <ListView x:Name="CartListView" ItemsSource="{Binding Drugs}">
+        <ListView x:Name="CartListView" ItemsSource="{Binding Products}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Drug ID" DisplayMemberBinding="{Binding DrugID}" />
-                    <GridViewColumn Header="Drug Name" DisplayMemberBinding="{Binding DrugName}" />
-                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding ProductTypeName}" />
+                    <GridViewColumn Header="Drug ID" DisplayMemberBinding="{Binding ProductID}" />
+                    <GridViewColumn Header="Drug Name" DisplayMemberBinding="{Binding ProductName}" />
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding ProductType}" />
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" />
                     <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" />
                     <!-- Add more columns as needed for other properties -->

@@ -1,5 +1,6 @@
 ﻿using Client.Model.Services;
 using Client.View.WindowFactory;
+using Client.ViewModel;
 using System.Windows;
 
 namespace Client.View
@@ -10,16 +11,17 @@ namespace Client.View
     public partial class ShoppingCartWindow : Window
     {
         private IWindowFactory _windowFactory;
-        private IDrugMarketplaceService _drugMarketplaceService;
+        private IShoppingCartViewModel _shoppingCartViewModel;
         private string _username;
 
-        public ShoppingCartWindow(IWindowFactory windowFactory, IDrugMarketplaceService drugMarketplaceService, string username)
+        public ShoppingCartWindow(IWindowFactory windowFactory, IShoppingCartViewModel shoppingCartViewModel, string username)
         {
             this._windowFactory = windowFactory;
-            this._drugMarketplaceService = drugMarketplaceService;
+            this._shoppingCartViewModel = shoppingCartViewModel;
             this._username = username;
 
             InitializeComponent();
+            this.DataContext = _shoppingCartViewModel;
         }
 
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)

@@ -25,8 +25,8 @@
         <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="DrugListListView" ItemsSource="{Binding Products}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Drug Name" DisplayMemberBinding="{Binding DrugName}" />
-                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" />
+                    <GridViewColumn Header="Drug Name" DisplayMemberBinding="{Binding ProductName}" />
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding ProductType}" />
                 </GridView>
             </ListView.View>
         </ListView>
