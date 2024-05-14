@@ -19,7 +19,12 @@ namespace Client.Model.Services
 
         public bool AuthenticateUser(string username, string password)
         {
-            User user = _userRepository.GetUser(username);
+            User user = this.GetUserByUsername(username);
+            if (user == null)
+            {
+                return false;
+            }
+
             if (user.Password == password)
             {
                 return true;
@@ -34,6 +39,20 @@ namespace Client.Model.Services
         {
             User user = new User(0, username, password, nickname, userType);
             _userRepository.AddUser(user);
+        }
+
+        private User GetUserByUsername(string username)
+        {
+            List<User> allUsers = _userRepository.GetAllUsers();
+            foreach (User user in allUsers)
+            {
+                if (user.Username == username)
+                {
+                    return user;
+                }
+            }
+
+            return null;
         }
     }
 }

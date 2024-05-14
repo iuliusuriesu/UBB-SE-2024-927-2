@@ -18,17 +18,20 @@ namespace Client.Model.Repositories
 
         public void AddUser(User user)
         {
+            // POST https://localhost:7100/api/Users
             Users.Add(user);
         }
 
         public List<User> GetAllUsers()
         {
+            // GET https://localhost:7100/api/Users
             return Users;
         }
 
-        public User GetUser(string username)
+        public User GetUser(int userId)
         {
-            User foundUser = Users.Find(user => user.Username == username);
+            // GET https://localhost:7100/api/Users/:userId
+            User foundUser = Users.Find(user => user.UserID == userId);
             return foundUser;
         }
     }

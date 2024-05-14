@@ -1,4 +1,5 @@
 ﻿using Client.View.AdminBiddingView;
+using Client.View.BasicUserBiddingView;
 
 namespace Client.View.WindowFactory
 {
@@ -11,5 +12,8 @@ namespace Client.View.WindowFactory
         MainWindow CreateMainWindow(string username);
         AdminLiveAuctionWindow CreateAdminLiveAuctionWindow();
         AddAuctionWindow CreateAddAuctionWindow();
+        UserLiveAuctionWindow CreateUserLiveAuctionWindow();
+        AuctionDetailsWindow CreateAuctionDetailsWindow();
+        EnterAuctionWindow CreateEnterAuctionWindow();
     }
 }

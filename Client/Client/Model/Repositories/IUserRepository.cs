@@ -6,7 +6,7 @@ namespace Client.Model.Repositories
     public interface IUserRepository
     {
         List<User> GetAllUsers();
-        User GetUser(string username);
+        User GetUser(int userId);
         void AddUser(User user);
     }
 }

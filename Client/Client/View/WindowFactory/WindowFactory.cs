@@ -1,5 +1,6 @@
 ﻿using Client.Model.Services;
 using Client.View.AdminBiddingView;
+using Client.View.BasicUserBiddingView;
 using Client.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -53,6 +54,21 @@ namespace Client.View.WindowFactory
         public AddAuctionWindow CreateAddAuctionWindow()
         {
             return new AddAuctionWindow(this);
+        }
+
+        public UserLiveAuctionWindow CreateUserLiveAuctionWindow()
+        {
+            return new UserLiveAuctionWindow(this);
+        }
+
+        public AuctionDetailsWindow CreateAuctionDetailsWindow()
+        {
+            return new AuctionDetailsWindow(this);
+        }
+
+        public EnterAuctionWindow CreateEnterAuctionWindow()
+        {
+            return new EnterAuctionWindow(this);
         }
     }
 }

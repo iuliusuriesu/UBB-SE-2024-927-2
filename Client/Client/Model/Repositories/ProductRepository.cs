@@ -18,11 +18,13 @@ namespace Client.Model.Repositories
 
         public List<Product> GetAllProducts()
         {
+            // GET https://localhost:7100/api/Products
             return Products;
         }
 
         public Product GetProduct(int productId)
         {
+            // GET https://localhost:7100/api/Products/:productId
             Product foundProduct = Products.Find(product => product.ProductID == productId);
             return foundProduct;
         }
