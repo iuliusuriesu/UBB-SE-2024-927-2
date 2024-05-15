@@ -56,7 +56,7 @@ namespace Client.View.AdminBiddingView
 
         private void EnterAuction(object sender, RoutedEventArgs e)
         {
-            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow();
+            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow(1);
             auctionDetailsWindow.Show();
             this.Close();
         }

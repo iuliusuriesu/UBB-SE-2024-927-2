@@ -9,11 +9,16 @@ namespace Client.Model.Repositories
     {
         private string connectionString;
         public List<Auction> ListOfAuctions { get; set; }
-        public AuctionRepository(string connectionString)
+        public AuctionRepository()
         {
+            string connectionString=""; 
+            // inainte connection string ul era dat ca parametru
+            // acum nu va mai fi nevoie ptc va fi inlocuit de call uri catre BackEnd
+            // si oricum nu merg chestii date ca parametru din cauza dependency
+            // injection ului
             this.connectionString = connectionString;
             this.ListOfAuctions = new List<Auction>();
-            this.LoadAuctionsFromDatabase();
+            //this.LoadAuctionsFromDatabase();
         }
 
         public AuctionRepository(List<Auction> listOfAuctions, string connectionString)

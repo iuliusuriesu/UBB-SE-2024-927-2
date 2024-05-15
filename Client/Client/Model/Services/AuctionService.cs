@@ -13,7 +13,7 @@ namespace Client.Model.Services
     {
         private IAuctionRepository AuctionRepository { get; set; }
 
-        public AuctionService(AuctionRepository auctionRepository)
+        public AuctionService(IAuctionRepository auctionRepository)
         {
             this.AuctionRepository = auctionRepository;
         }

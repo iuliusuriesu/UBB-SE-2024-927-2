@@ -23,13 +23,15 @@ namespace Client
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBidRepository, BidRepository>();
-            services.AddSingleton<IAuctionRepository, AuctionRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<IBidRepository, BidRepository>();
+            services.AddSingleton<IAuctionRepository, AuctionRepository>();
 
             services.AddSingleton<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IDrugMarketplaceService, DrugMarketplaceService>();
+            services.AddSingleton<IBidService, BidService>();
+            services.AddSingleton<IAuctionService, AuctionService>();
 
             services.AddTransient<IProductViewModel, ProductViewModel>();
             services.AddTransient<IShoppingCartViewModel, ShoppingCartViewModel>();

@@ -1,4 +1,5 @@
-﻿using Client.Model.Services;
+﻿using Client.Model.Repositories;
+using Client.Model.Services;
 using Client.View.AdminBiddingView;
 using Client.View.BasicUserBiddingView;
 using Client.ViewModel;
@@ -51,6 +52,7 @@ namespace Client.View.WindowFactory
 
         public AdminLiveAuctionWindow CreateAdminLiveAuctionWindow()
         {
+            var auctionRepo = serviceProvider.GetRequiredService<IAuctionRepository>();
             var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
             var bidService = serviceProvider.GetRequiredService<IBidService>();
             return new AdminLiveAuctionWindow(this, auctionService, bidService);

@@ -10,11 +10,12 @@ namespace Client.Model.Repositories
         private string connectionString;
         public List<Bid> Bids { get; set; }
 
-        public BidRepository(string connectionString)
+        public BidRepository()
         {
+            string connectionString="";
             this.connectionString = connectionString;
             this.Bids = new List<Bid>();
-            this.LoadBidsFromDatabase();
+            //this.LoadBidsFromDatabase();
         }
 
         public BidRepository(List<Bid> bids, string connectionString)
