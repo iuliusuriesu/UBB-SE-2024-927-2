@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using ServerAPI.Domain;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<DiversityMarketplaceContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DiversityMarketplaceContext")));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

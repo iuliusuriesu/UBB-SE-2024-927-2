@@ -1,0 +1,47 @@
+﻿<Window x:Class="Client.View.BasicUserBiddingView.EnterAuctionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.View.BasicUserBiddingView"
+        mc:Ignorable="d"
+        Title="EnterAuctionWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <!-- Bid History -->
+        <Label Content="Bid History" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="150" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False" Panel.ZIndex="2" FontSize="24" FontFamily="Agency FB"/>
+        <TextBox x:Name="BidHistory" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="5" Margin="20" IsEnabled="False"/>
+
+        <!-- Current Bid -->
+        <TextBox x:Name="CurrentBid" Grid.Row="1" Grid.Column="2" Margin="55 30 20 20" IsEnabled="False"></TextBox>
+
+        <!-- Time Left -->
+        <TextBox x:Name="TimeLeft" Grid.Row="1" Grid.Column="3" Margin="20 30 55 20" IsEnabled="False"></TextBox>
+
+        <!-- Auction Name -->
+        <TextBox x:Name="AuctionNameBid" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="20,0,20,30" IsEnabled="False"></TextBox>
+
+        <!-- Enter Sum -->
+        <TextBox x:Name="SumInput" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="100,65,100,65" TextAlignment="Center" FontSize="36" FontFamily="Agency FB" Grid.RowSpan="2" />
+
+        <!-- Bid Button -->
+        <Button Grid.Column="3" Margin="60,30,60,22" Grid.Row="3" Content="Bid" FontFamily="Agency FB" FontSize="24" Click="Button_Click_1"/>
+
+        <!-- Back Button -->
+        <Button Grid.Column="3" Grid.Row="4" Margin="85 20 20 20" Content="Back" FontSize="22" FontFamily="Agency FB" Click="Button_Click" ></Button>
+    </Grid>
+</Window>
