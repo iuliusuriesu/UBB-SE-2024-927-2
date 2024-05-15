@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Entities\Auction.cs" />
     <Compile Include="Model\Entities\Bid.cs" />
+    <Compile Include="Model\Entities\IBid.cs" />
     <Compile Include="Model\Entities\Product.cs" />
     <Compile Include="Model\Entities\User.cs" />
     <Compile Include="Model\Repositories\AuctionRepository.cs" />

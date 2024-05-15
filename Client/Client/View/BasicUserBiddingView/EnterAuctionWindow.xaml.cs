@@ -52,7 +52,7 @@ namespace Client.View.BasicUserBiddingView
             int n = auctions[auctionIndex].listOfBids.Count;
             for (int i = 0; i < n; i++)
             {
-                BidHistory.Text += auctions[auctionIndex].listOfBids[i].bidSum.ToString() + "\n";
+                BidHistory.Text += auctions[auctionIndex].listOfBids[i].BidSum.ToString() + "\n";
             }
         }
 
