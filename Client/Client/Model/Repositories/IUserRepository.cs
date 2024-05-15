@@ -1,12 +1,14 @@
 ﻿using Client.Model.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace Client.Model.Repositories
 {
     public interface IUserRepository
     {
-        List<User> GetAllUsers();
-        User GetUser(int userId);
-        void AddUser(User user);
+        Task<List<User>> GetAllUsers();
+        Task<User> GetUser(int userId);
+        Task AddUser(User user);
     }
 }
