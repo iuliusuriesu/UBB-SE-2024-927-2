@@ -1,31 +1,62 @@
 ﻿using Client.Model.Entities;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Client.Model.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private List<Product> Products;
+        public ProductRepository() { }
 
-        public ProductRepository()
+        public async Task<List<Product>> GetAllProducts()
         {
-            Products = new List<Product>
-            {
-                new Product(1, "Cocaine", "Bad drug", new decimal(23.45), "Drug", 5),
-                new Product(2, "Xanax", "Another bad drug", new decimal(7.89), "Pill", 10),
-            };
-        }
+            List<Product> products = new List<Product>();
 
-        public List<Product> GetAllProducts()
-        {
             // GET https://localhost:7100/api/Products
-            return Products;
+            using (var httpClient = new HttpClient())
+            {
+                string endpoint = "https://localhost:7100/api/Products";
+                var result = await httpClient.GetAsync(endpoint);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var json = await result.Content.ReadAsStringAsync();
+                    products = JsonConvert.DeserializeObject<List<Product>>(json);
+                }
+                else
+                {
+                    throw new Exception($"Could not get products. Status code: {result.StatusCode}");
+                }
+            }
+
+            return products;
         }
 
-        public Product GetProduct(int productId)
+        public async Task<Product> GetProduct(int productId)
         {
             // GET https://localhost:7100/api/Products/:productId
-            Product foundProduct = Products.Find(product => product.ProductID == productId);
+            Product foundProduct = null;
+
+            using (var httpClient = new HttpClient())
+            {
+                string endpoint = $"https://localhost:7100/api/Products/{productId}";
+                var result = await httpClient.GetAsync(endpoint);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var json = await result.Content.ReadAsStringAsync();
+                    foundProduct = JsonConvert.DeserializeObject<Product>(json);
+                }
+                else
+                {
+                    throw new Exception($"Could not get product based on productId. Status code: {result.StatusCode}");
+                }
+            }
+
             return foundProduct;
         }
     }
