@@ -47,29 +47,41 @@ namespace Client.View.WindowFactory
             return new MainWindow(this, authenticationService, username);
         }
 
+
+
         public AdminLiveAuctionWindow CreateAdminLiveAuctionWindow()
         {
-            return new AdminLiveAuctionWindow(this);
+            var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
+            var bidService = serviceProvider.GetRequiredService<IBidService>();
+            return new AdminLiveAuctionWindow(this, auctionService, bidService);
         }
 
         public AddAuctionWindow CreateAddAuctionWindow()
         {
-            return new AddAuctionWindow(this);
+            var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
+            return new AddAuctionWindow(this, auctionService);
         }
 
         public UserLiveAuctionWindow CreateUserLiveAuctionWindow()
         {
-            return new UserLiveAuctionWindow(this);
+            var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
+            var bidService = serviceProvider.GetRequiredService<IBidService>();
+
+            return new UserLiveAuctionWindow(this, bidService, auctionService);
         }
 
-        public AuctionDetailsWindow CreateAuctionDetailsWindow()
+        public AuctionDetailsWindow CreateAuctionDetailsWindow(int auctionIndex)
         {
-            return new AuctionDetailsWindow(this);
+            var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
+            var bidService = serviceProvider.GetRequiredService<IBidService>();
+            return new AuctionDetailsWindow(this, auctionService, bidService, auctionIndex);
         }
 
-        public EnterAuctionWindow CreateEnterAuctionWindow()
+        public EnterAuctionWindow CreateEnterAuctionWindow(int auctionIndex)
         {
-            return new EnterAuctionWindow(this);
+            var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
+            var bidService = serviceProvider.GetRequiredService<IBidService>();
+            return new EnterAuctionWindow(this, auctionService, bidService, auctionIndex);
         }
     }
 }

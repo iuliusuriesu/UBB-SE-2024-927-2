@@ -1,7 +1,10 @@
-﻿using Client.View.WindowFactory;
+﻿using Client.Model.Entities;
+using Client.Model.Services;
+using Client.View.WindowFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,34 +24,55 @@ namespace Client.View.BasicUserBiddingView
     public partial class UserLiveAuctionWindow : Window
     {
         private IWindowFactory _windowFactory;
+        public IBidService _bidService;
+        public IAuctionService _auctionService;
 
-        public UserLiveAuctionWindow(IWindowFactory windowFactory)
+        public List<Auction> auctions;
+
+        public UserLiveAuctionWindow(IWindowFactory windowFactory, IBidService bidService, IAuctionService auctionService)
         {
             this._windowFactory = windowFactory;
+            this._bidService = bidService;
+            this._auctionService = auctionService;
+            auctions = _auctionService.GetAuctions();
+
+            name1.Text = auctions[0].name;
+            name2.Text = auctions[1].name;
+            //name3.Text= auctions[2].name;
+            description1.Text = auctions[0].description;
+            description2.Text = auctions[1].description;
+            //description3.Text = auctions[2].description;
+            price1.Text = auctions[0].currentMaxSum.ToString();
+            price2.Text = auctions[1].currentMaxSum.ToString();
+            //price3.Text = auctions[2].currentMaxSum.ToString();
+
+            time1.Text = (DateTime.Now - auctions[0].startingDate).Hours.ToString();
+            time2.Text = (DateTime.Now - auctions[1].startingDate).Hours.ToString();
+            //time3.Text = (DateTime.Now - auctions[2].startingDate).Hours.ToString();
 
             InitializeComponent();
         }
 
-        private void NavigateToDetailsPage()
+        private void NavigateToDetailsPage(int index)
         {
-            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow();
+            var auctionDetailsWindow = _windowFactory.CreateAuctionDetailsWindow(index);
             auctionDetailsWindow.Show();
             this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToDetailsPage();
+            NavigateToDetailsPage(0);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            NavigateToDetailsPage();
+            NavigateToDetailsPage(1);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            NavigateToDetailsPage();
+            NavigateToDetailsPage(2);
         }
     }
 }

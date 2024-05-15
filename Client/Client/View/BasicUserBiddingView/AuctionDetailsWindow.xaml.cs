@@ -1,7 +1,10 @@
-﻿using Client.View.WindowFactory;
+﻿using Client.Model.Entities;
+using Client.Model.Services;
+using Client.View.WindowFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,10 +25,32 @@ namespace Client.View.BasicUserBiddingView
     {
         private IWindowFactory _windowFactory;
 
-        public AuctionDetailsWindow(IWindowFactory windowFactory)
+        public int auctionIndex;
+
+        public IAuctionService _auctionService;
+        public IBidService _bidService;
+
+        public List<Bid> bidModels;
+        public List<Auction> auctions;
+
+        public AuctionDetailsWindow(IWindowFactory windowFactory, IAuctionService auctionService, IBidService bidService, int auctionIndex)
         {
             this._windowFactory = windowFactory;
             InitializeComponent();
+            this.auctionIndex = auctionIndex;
+            this._auctionService = auctionService;
+            this._bidService = bidService;
+            List<Auction> auctions = _auctionService.GetAuctions();
+
+            AuctionNameBid.Text = auctions[auctionIndex].name;
+            CurrentBid.Text = auctions[auctionIndex].currentMaxSum.ToString();
+            TimeLeft.Text = (DateTime.Now - auctions[auctionIndex].startingDate).Hours.ToString();
+
+            int n = auctions[auctionIndex].listOfBids.Count;
+            for (int i = 0; i < n; i++)
+            {
+                BidHistory.Text += auctions[auctionIndex].listOfBids[i].bidSum.ToString() + "\n";
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -37,7 +62,7 @@ namespace Client.View.BasicUserBiddingView
 
         private void JoinAuction(object sender, RoutedEventArgs e)
         {
-            var enterAuctionWindow = _windowFactory.CreateEnterAuctionWindow();
+            var enterAuctionWindow = _windowFactory.CreateEnterAuctionWindow(auctionIndex);
             enterAuctionWindow.Show();
             this.Close();
         }

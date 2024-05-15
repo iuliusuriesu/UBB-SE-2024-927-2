@@ -13,7 +13,7 @@ namespace Client.View.WindowFactory
         AdminLiveAuctionWindow CreateAdminLiveAuctionWindow();
         AddAuctionWindow CreateAddAuctionWindow();
         UserLiveAuctionWindow CreateUserLiveAuctionWindow();
-        AuctionDetailsWindow CreateAuctionDetailsWindow();
-        EnterAuctionWindow CreateEnterAuctionWindow();
+        AuctionDetailsWindow CreateAuctionDetailsWindow(int auctionIndex);
+        EnterAuctionWindow CreateEnterAuctionWindow(int auctionIndex);
     }
 }
