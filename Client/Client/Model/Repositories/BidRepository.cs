@@ -1,21 +1,23 @@
 ﻿using System.Data.SqlClient;
-using BiddingPlatform.User;
+using System;
+using Client.Model.Entities;
+using System.Collections.Generic;
 
-namespace BiddingPlatform.Bid
+namespace Client.Model.Repositories
 {
     public class BidRepository : IBidRepository
     {
         private string connectionString;
-        public List<IBidModel> Bids { get; set; }
+        public List<Bid> Bids { get; set; }
 
         public BidRepository(string connectionString)
         {
             this.connectionString = connectionString;
-            this.Bids = new List<IBidModel>();
+            this.Bids = new List<Bid>();
             this.LoadBidsFromDatabase();
         }
 
-        public BidRepository(List<IBidModel> bids, string connectionString)
+        public BidRepository(List<Bid> bids, string connectionString)
         {
             this.connectionString = connectionString;
             Bids = bids;
@@ -38,15 +40,15 @@ namespace BiddingPlatform.Bid
                     DateTime timeOfBid = Convert.ToDateTime(reader["TimeOfBid"]);
                     int userId = Convert.ToInt32(reader["UserID"]);
 
-                    BasicUser user = this.GetUserFromDataBase(userId);
+                    User user = this.GetUserFromDataBase(userId);
 
-                    BidModel bid = new BidModel(bidId, user, bidSum, timeOfBid);
-                    Bids.Add((IBidModel)bid);
+                    Bid bid = new Bid(bidId, user, bidSum, timeOfBid);
+                    Bids.Add((Bid)bid);
                 }
             }
         }
 
-        private BasicUser GetUserFromDataBase(int userID)
+        private User GetUserFromDataBase(int userID)
         {
             string query = $"SELECT * FROM Users WHERE UserID = {userID}";
 
@@ -61,30 +63,32 @@ namespace BiddingPlatform.Bid
                     string username = reader["Username"].ToString();
                     string nickname = reader["Nickname"].ToString();
                     string userType = reader["UserType"].ToString();
-                    BasicUser user;
-                    user = new BasicUser(userID, username, nickname);
+                    string password = reader["Password"].ToString();
+               
+                    User user;
+                    user = new User(userID, username, nickname, password, userType);
                     return user;
                 }
             }
             return null;
         }
 
-        public void AddBidToRepo(IBidModel bid)
+        public void AddBidToRepo(Bid bid)
         {
             this.Bids.Add(bid);
         }
 
-        public List<IBidModel> GetBids()
+        public List<Bid> GetBids()
         {
             return this.Bids;
         }
 
-        public void DeleteBidFromRepo(IBidModel bid)
+        public void DeleteBidFromRepo(Bid bid)
         {
             this.Bids.Remove(bid);
         }
 
-        public void UpdateBidIntoRepo(IBidModel oldbid, IBidModel newbid)
+        public void UpdateBidIntoRepo(Bid oldbid, Bid newbid)
         {
             int oldbidIndex = this.Bids.FindIndex(bid => bid == oldbid);
             if (oldbidIndex != -1)

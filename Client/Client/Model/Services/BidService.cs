@@ -1,6 +1,9 @@
-﻿using BiddingPlatform.User;
+﻿using Client.Model.Entities;
+using Client.Model.Repositories;
+using System;
+using System.Collections.Generic;
 
-namespace BiddingPlatform.Bid
+namespace Client.Model.Services
 {
     public class BidService : IBidService
     {
@@ -10,27 +13,27 @@ namespace BiddingPlatform.Bid
             BidRepository = bidRepository;
         }
 
-        public void AddBid(int id, BasicUser user, float bidSum, DateTime biddate)
+        public void AddBid(int id, User user, float bidSum, DateTime biddate)
         {
-            IBidModel toAdd = new BidModel(id, user, bidSum, biddate) as IBidModel;
+            Bid toAdd = new Bid(id, user, bidSum, biddate) as Bid;
 
             this.BidRepository.AddBidToRepo(toAdd);
         }
 
-        public void RemoveBid(int bidID, BasicUser user, float bidSum, DateTime biddate)
+        public void RemoveBid(int bidID, User user, float bidSum, DateTime biddate)
         {
-            IBidModel toremove = new BidModel(bidID, user, bidSum, biddate) as IBidModel;
+            Bid toremove = new Bid(bidID, user, bidSum, biddate);
             this.BidRepository.DeleteBidFromRepo(toremove);
         }
 
-        public void UpdateBid(int bidID, BasicUser userToBeUpdated, float bidSumToBeUpdated, DateTime bidDateToBeUpdated, BasicUser newuser, float newbidSum, DateTime newBidDate)
+        public void UpdateBid(int bidID, User userToBeUpdated, float bidSumToBeUpdated, DateTime bidDateToBeUpdated, User newuser, float newbidSum, DateTime newBidDate)
         {
-            IBidModel bidToBeUpdated = new BidModel(bidID, userToBeUpdated, bidSumToBeUpdated, bidDateToBeUpdated) as IBidModel;
-            IBidModel newBid = new BidModel(bidID, newuser, newbidSum, newBidDate) as IBidModel;
+            Bid bidToBeUpdated = new Bid(bidID, userToBeUpdated, bidSumToBeUpdated, bidDateToBeUpdated) as Bid;
+            Bid newBid = new Bid(bidID, newuser, newbidSum, newBidDate) as Bid;
             this.BidRepository.UpdateBidIntoRepo(bidToBeUpdated, newBid);
         }
 
-        public List<IBidModel> GetBids()
+        public List<Bid> GetBids()
         {
             return this.BidRepository.GetBids();
         }

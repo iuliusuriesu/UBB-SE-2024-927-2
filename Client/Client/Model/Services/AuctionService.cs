@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Client.Model.Entities;
+using Client.Model.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace BiddingPlatform.Auction
+namespace Client.Model.Services
 {
     public class AuctionService : IAuctionService
     {
@@ -18,25 +20,25 @@ namespace BiddingPlatform.Auction
 
         public void AddAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
         {
-            IAuctionModel auction = new AuctionModel(id, startingDate, description, name, currentMaxSum);
+            Auction auction = new Auction(id, startingDate, description, name, currentMaxSum);
             this.AuctionRepository.AddAuctionToRepo(auction);
         }
 
         public void RemoveAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
         {
-            IAuctionModel auction = new AuctionModel(id, startingDate, description, name, currentMaxSum);
+            Auction auction = new Auction(id, startingDate, description, name, currentMaxSum);
             this.AuctionRepository.RemoveAuctionFromRepo(auction);
         }
 
-        public List<IAuctionModel> GetAuctions()
+        public List<Auction> GetAuctions()
         {
             return this.AuctionRepository.ListOfAuctions;
         }
 
         public void UpdateAuction(int id, DateTime oldstartingDate, string olddescription, string oldname, float oldcurrentMaxSum, DateTime newstartingDate, string newdescription, string newname, float newcurrentMaxSum)
         {
-            IAuctionModel oldauction = new AuctionModel(id, oldstartingDate, olddescription, oldname, oldcurrentMaxSum);
-            IAuctionModel newauction = new AuctionModel(id, newstartingDate, newdescription, newname, newcurrentMaxSum);
+            Auction oldauction = new Auction(id, oldstartingDate, olddescription, oldname, oldcurrentMaxSum);
+            Auction newauction = new Auction(id, newstartingDate, newdescription, newname, newcurrentMaxSum);
             this.AuctionRepository.UpdateAuctionIntoRepo(oldauction, newauction);
         }
 

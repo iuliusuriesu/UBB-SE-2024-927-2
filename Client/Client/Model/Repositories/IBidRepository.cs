@@ -1,11 +1,14 @@
-﻿namespace BiddingPlatform.Bid
+﻿using Client.Model.Entities;
+using System.Collections.Generic;
+
+namespace Client.Model.Repositories
 {
     public interface IBidRepository
     {
-        List<IBidModel> Bids { get; set; }
-        void AddBidToRepo(IBidModel bid);
-        void DeleteBidFromRepo(IBidModel bid);
-        List<IBidModel> GetBids();
-        void UpdateBidIntoRepo(IBidModel oldbid, IBidModel newbid);
+        List<Bid> Bids { get; set; }
+        void AddBidToRepo(Bid bid);
+        void DeleteBidFromRepo(Bid bid);
+        List<Bid> GetBids();
+        void UpdateBidIntoRepo(Bid oldbid, Bid newbid);
     }
 }

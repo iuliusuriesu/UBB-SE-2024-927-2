@@ -23,6 +23,8 @@ namespace Client
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IBidRepository, BidRepository>();
+            services.AddSingleton<IAuctionRepository, AuctionRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
 

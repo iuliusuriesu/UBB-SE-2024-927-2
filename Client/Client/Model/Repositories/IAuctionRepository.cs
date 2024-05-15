@@ -1,15 +1,18 @@
-﻿using BiddingPlatform.Bid;
-using BiddingPlatform.User;
+﻿
 
-namespace BiddingPlatform.Auction
+using Client.Model.Entities;
+using System;
+using System.Collections.Generic;
+
+namespace Client.Model.Repositories
 {
     public interface IAuctionRepository
     {
-        List<IAuctionModel> ListOfAuctions { get; set; }
-        void AddAuctionToRepo(IAuctionModel auction);
+        List<Auction> ListOfAuctions { get; set; }
+        void AddAuctionToRepo(Auction auction);
         void AddToDB(string name, string description, DateTime date, float currentMaxSum);
-        void RemoveAuctionFromRepo(IAuctionModel auction);
-        void UpdateAuctionIntoRepo(IAuctionModel oldauction, IAuctionModel newauction);
+        void RemoveAuctionFromRepo(Auction auction);
+        void UpdateAuctionIntoRepo(Auction oldauction, Auction newauction);
         float GetBidMaxSum(int index);
     }
 }
