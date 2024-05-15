@@ -162,9 +162,10 @@ namespace Client.Model.Repositories
                 this.ListOfAuctions[oldauctionIndex] = newauction;
             }
         }
+
         public float GetBidMaxSum(int index)
         {
-            return this.ListOfAuctions[index].CurrentMaxBid;
+            return this.ListOfAuctions[index].currentMaxSum;
         }
     }
 }

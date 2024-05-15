@@ -38,6 +38,15 @@ namespace Client.Model.Entities
             this.listOfBids = new List<Bid>();
         }
 
-        //more to be implemented
+        public void AddUserToAuction(User user)
+        {
+            this.listOfUsers.Add(user);
+        }
+
+        public void AddBidToAuction(IBid bid)
+        {
+            this.listOfBids.Add((Bid)bid);
+        }
+
     }
 }
