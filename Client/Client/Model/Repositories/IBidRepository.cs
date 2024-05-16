@@ -1,14 +1,15 @@
 ﻿using Client.Model.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Client.Model.Repositories
 {
     public interface IBidRepository
     {
         List<Bid> Bids { get; set; }
-        void AddBidToRepo(Bid bid);
-        void DeleteBidFromRepo(Bid bid);
+        Task AddBidToRepo(Bid bid);
+        Task DeleteBidFromRepo(Bid bid);
         List<Bid> GetBids();
-        void UpdateBidIntoRepo(Bid oldbid, Bid newbid);
+        Task UpdateBidIntoRepo(Bid oldbid, Bid newbid);
     }
 }
