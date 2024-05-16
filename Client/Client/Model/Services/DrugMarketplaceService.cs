@@ -21,7 +21,7 @@ namespace Client.Model.Services
             _shoppingCart = new List<Product>();
         }
 
-        public void AddToShoppingCart(int productId)
+        public async void AddToShoppingCart(int productId)
         {
             foreach (Product currentProduct in _shoppingCart)
             {
@@ -31,13 +31,13 @@ namespace Client.Model.Services
                 }
             }
 
-            Product product = _productRepository.GetProduct(productId);
+            Product product = await _productRepository.GetProduct(productId);
             _shoppingCart.Add(product);
         }
 
-        public List<Product> FilterProductsByName(string text)
+        public async Task<List<Product>> FilterProductsByName(string text)
         {
-            List<Product> allProducts = _productRepository.GetAllProducts();
+            List<Product> allProducts = await _productRepository.GetAllProducts();
             if (text == string.Empty)
             {
                 return allProducts;

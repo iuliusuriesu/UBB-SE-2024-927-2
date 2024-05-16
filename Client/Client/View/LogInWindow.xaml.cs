@@ -20,7 +20,7 @@ namespace Client.View
             InitializeComponent();
         }
 
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        private async void SignInButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
             string password = PasswordTextBox.Text; // Consider hashing the password for comparison
@@ -31,7 +31,7 @@ namespace Client.View
                 return;
             }
 
-            if (_authenticationService.AuthenticateUser(username, password))
+            if (await _authenticationService.AuthenticateUser(username, password))
             {
                 MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 // Proceed to the next window or dashboard

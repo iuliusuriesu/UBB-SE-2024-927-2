@@ -29,9 +29,9 @@ namespace Client.View
             this.Close();
         }
 
-        private void AuctionsButton_Click(object sender, RoutedEventArgs e)
+        private async void AuctionsButton_Click(object sender, RoutedEventArgs e)
         {
-            string userType = _authenticationService.GetUserType(_username);
+            string userType = await _authenticationService.GetUserType(_username);
             if (userType == "admin")
             {
                 var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();

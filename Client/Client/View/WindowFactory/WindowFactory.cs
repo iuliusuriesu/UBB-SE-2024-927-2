@@ -5,6 +5,7 @@ using Client.View.BasicUserBiddingView;
 using Client.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace Client.View.WindowFactory
 {

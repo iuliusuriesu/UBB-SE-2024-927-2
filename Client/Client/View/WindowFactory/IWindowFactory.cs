@@ -1,5 +1,6 @@
 ﻿using Client.View.AdminBiddingView;
 using Client.View.BasicUserBiddingView;
+using System.Threading.Tasks;
 
 namespace Client.View.WindowFactory
 {
