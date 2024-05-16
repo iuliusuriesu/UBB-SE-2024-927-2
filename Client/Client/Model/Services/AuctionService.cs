@@ -35,6 +35,11 @@ namespace Client.Model.Services
             return this.AuctionRepository.ListOfAuctions;
         }
 
+        public async Task<List<Auction>> GetAuctionsAsync()
+        {
+            return await this.AuctionRepository.GetAllAuctions();
+        }
+
         public void UpdateAuction(int id, DateTime oldstartingDate, string olddescription, string oldname, float oldcurrentMaxSum, DateTime newstartingDate, string newdescription, string newname, float newcurrentMaxSum)
         {
             Auction oldauction = new Auction(id, oldstartingDate, olddescription, oldname, oldcurrentMaxSum);

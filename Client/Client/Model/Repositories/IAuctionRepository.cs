@@ -3,6 +3,7 @@
 using Client.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Client.Model.Repositories
 {
@@ -14,5 +15,6 @@ namespace Client.Model.Repositories
         void RemoveAuctionFromRepo(Auction auction);
         void UpdateAuctionIntoRepo(Auction oldauction, Auction newauction);
         float GetBidMaxSum(int index);
+        Task<List<Auction>> GetAllAuctions();
     }
 }

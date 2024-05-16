@@ -35,7 +35,8 @@ namespace Client.View.AdminBiddingView
             this._auctionService = auctionService;
             this._bidService = bidService;
 
-            auctions = _auctionService.GetAuctions();
+            //auctions = _auctionService.GetAuctions();
+            auctions = _auctionService.GetAuctionsAsync().Result;   // needs to be awaited, constructor can't be async; might need a workaround
 
             InitializeComponent();
 
