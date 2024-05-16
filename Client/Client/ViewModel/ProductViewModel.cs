@@ -14,7 +14,7 @@ namespace Client.ViewModel
         private IDrugMarketplaceService _drugMarketplaceService;
         public ObservableCollection<Product> Products { get; set; }
 
-        private ProductViewModel(IDrugMarketplaceService drugMarketplaceService)
+        public ProductViewModel(IDrugMarketplaceService drugMarketplaceService)
         {
             _drugMarketplaceService = drugMarketplaceService;
         }
