@@ -30,8 +30,18 @@ namespace Client.View.AdminBiddingView
         {
             this._windowFactory = windowFactory;
             this._auctionService = auctionService;
-            auctions = _auctionService.GetAuctions();
-
+            this.auctions = new List<Auction>();
+            _auctionService.GetAuctions().ContinueWith(auctionTask =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    var auctions = auctionTask.Result;
+                    foreach(var auction in auctions)
+                    {
+                        this.auctions.Add(auction);
+                    }
+                });
+            });
             InitializeComponent();
         }
 
