@@ -12,7 +12,7 @@ using ServerAPI.Domain;
 namespace ServerAPI.Migrations
 {
     [DbContext(typeof(DiversityMarketplaceContext))]
-    [Migration("20240520134132_InitialCreate")]
+    [Migration("20240520211604_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace ServerAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("ServerAPI.Domain.User", "User")
-                        .WithMany()
+                        .WithMany("Bids")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -158,6 +158,11 @@ namespace ServerAPI.Migrations
                 });
 
             modelBuilder.Entity("ServerAPI.Domain.Auction", b =>
+                {
+                    b.Navigation("Bids");
+                });
+
+            modelBuilder.Entity("ServerAPI.Domain.User", b =>
                 {
                     b.Navigation("Bids");
                 });
