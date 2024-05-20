@@ -72,14 +72,6 @@ namespace ServerAPI.Controllers
             return NoContent();
         }
 
-       // [HttpPost]
-       // public async Task<ActionResult<Bid>> PostBid12(Bid bid)
-       // {
-       //     _context.Bids.Add(bid);
-       //     await _context.SaveChangesAsync();
-
-       //     return CreatedAtAction("GetBid", new { id = bid.BidId }, bid);
-       // }
         // POST: api/Bids
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
