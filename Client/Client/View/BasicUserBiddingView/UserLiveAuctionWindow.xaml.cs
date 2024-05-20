@@ -32,23 +32,28 @@ namespace Client.View.BasicUserBiddingView
         {
             this._windowFactory = windowFactory;
             this._auctionService = auctionService;
-            auctions = _auctionService.GetAuctions();
+            auctions = new List<Auction>();
+            _auctionService.GetAuctions().ContinueWith(auctionTask =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    name1.Text = auctions[0].name;
+                    name2.Text = auctions[1].name;
+                    //name3.Text= auctions[2].name;
+                    description1.Text = auctions[0].description;
+                    description2.Text = auctions[1].description;
+                    //description3.Text = auctions[2].description;
+                    price1.Text = auctions[0].currentMaxSum.ToString();
+                    price2.Text = auctions[1].currentMaxSum.ToString();
+                    //price3.Text = auctions[2].currentMaxSum.ToString();
 
-            name1.Text = auctions[0].name;
-            name2.Text = auctions[1].name;
-            //name3.Text= auctions[2].name;
-            description1.Text = auctions[0].description;
-            description2.Text = auctions[1].description;
-            //description3.Text = auctions[2].description;
-            price1.Text = auctions[0].currentMaxSum.ToString();
-            price2.Text = auctions[1].currentMaxSum.ToString();
-            //price3.Text = auctions[2].currentMaxSum.ToString();
+                    time1.Text = (DateTime.Now - auctions[0].startingDate).Hours.ToString();
+                    time2.Text = (DateTime.Now - auctions[1].startingDate).Hours.ToString();
+                    //time3.Text = (DateTime.Now - auctions[2].startingDate).Hours.ToString();
 
-            time1.Text = (DateTime.Now - auctions[0].startingDate).Hours.ToString();
-            time2.Text = (DateTime.Now - auctions[1].startingDate).Hours.ToString();
-            //time3.Text = (DateTime.Now - auctions[2].startingDate).Hours.ToString();
-
-            InitializeComponent();
+                    InitializeComponent();
+                });
+            });
         }
 
         private void NavigateToDetailsPage(int index)

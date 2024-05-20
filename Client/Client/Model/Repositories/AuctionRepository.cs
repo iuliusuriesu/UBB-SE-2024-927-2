@@ -102,9 +102,6 @@ namespace Client.Model.Repositories
             }
         }
 
-
-
-
         private List<Bid> LoadBidFromDatabase(int auctionID)
         {
             List<Bid> bids = new List<Bid>();

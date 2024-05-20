@@ -38,20 +38,31 @@ namespace Client.View.BasicUserBiddingView
             this.auctionIndex = auctionIndex;
             this._auctionService = auctionService;
 
-            this.auctions = _auctionService.GetAuctions();
-
-            InitializeComponent();
-
-            AuctionNameBid.Text = auctions[auctionIndex].name;
-            CurrentBid.Text = auctions[auctionIndex].currentMaxSum.ToString();
-            TimeLeft.Text = (DateTime.Now - auctions[auctionIndex].startingDate).Hours.ToString();
-
-
-            int n = auctions[auctionIndex].listOfBids.Count;
-            for (int i = 0; i < n; i++)
+            this.auctions = new List<Auction>();
+            _auctionService.GetAuctions().ContinueWith(aucitonTask =>
             {
-                BidHistory.Text += auctions[auctionIndex].listOfBids[i].BidSum.ToString() + "\n";
-            }
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    var auctions = aucitonTask.Result;
+                    foreach (var auction in auctions)
+                    {
+                        this.auctions.Add(auction);
+                    }
+
+                    InitializeComponent();
+
+                    AuctionNameBid.Text = auctions[auctionIndex].name;
+                    CurrentBid.Text = auctions[auctionIndex].currentMaxSum.ToString();
+                    TimeLeft.Text = (DateTime.Now - auctions[auctionIndex].startingDate).Hours.ToString();
+
+
+                    int n = auctions[auctionIndex].listOfBids.Count;
+                    for (int i = 0; i < n; i++)
+                    {
+                        BidHistory.Text += auctions[auctionIndex].listOfBids[i].BidSum.ToString() + "\n";
+                    }
+                });
+            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -1,8 +1,7 @@
-﻿
-
-using Client.Model.Entities;
+﻿using Client.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Client.Model.Repositories
 {
