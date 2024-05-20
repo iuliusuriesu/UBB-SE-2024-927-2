@@ -29,9 +29,8 @@ namespace Client.Model.Repositories
             this.ListOfAuctions = listOfAuctions;
         }
 
-        private async void LoadAuctionsFromDatabase()
+        private async Task LoadAuctionsFromDatabase()
         {
-            
             using (var httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync("https://localhost:7100/api/Auctions");
@@ -76,7 +75,8 @@ namespace Client.Model.Repositories
         }
 
         private async Task<List<User>> LoadUserFromDatabase(int auctionId)
-        {
+        { // this needs to be changed since the auction doesnt have the users list anymore
+            // the user list can be obtained from the Bids that have Bid.AuctionId == auctionId
             
             using (var httpClient = new HttpClient())
             {

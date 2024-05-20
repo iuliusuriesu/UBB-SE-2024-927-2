@@ -35,8 +35,19 @@ namespace Client.View.AdminBiddingView
             this._auctionService = auctionService;
             this._bidService = bidService;
 
-            //auctions = _auctionService.GetAuctions();
-            auctions = _auctionService.GetAuctionsAsync().Result;   // needs to be awaited, constructor can't be async; might need a workaround
+            //auctions = _auctionService.GetAuctionsAsync().Result;   // needs to be awaited, constructor can't be async; might need a workaround
+            //this is the workaround           
+            auctions = new List<Auction>(); // you must intialise it
+            _auctionService.GetAuctionsAsync().ContinueWith(auctionsTask => {
+                var auctions = auctionsTask.Result;
+                Application.Current.Dispatcher.Invoke((Action)delegate { 
+                    // this is for running the code on the main thread
+                    foreach (var auction in auctions)
+                    {
+                       this.auctions.Add(auction);
+                    }
+                });
+            });
 
             InitializeComponent();
 
