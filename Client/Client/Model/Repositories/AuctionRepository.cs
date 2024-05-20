@@ -1,56 +1,61 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Client.Model.Entities;
+using Newtonsoft.Json;
 
 namespace Client.Model.Repositories
 {
     public class AuctionRepository : IAuctionRepository
     {
-        private string connectionString;
         public List<Auction> ListOfAuctions { get; set; }
         public AuctionRepository()
         {
-            string connectionString = "";
-            // inainte connection string ul era dat ca parametru
-            // acum nu va mai fi nevoie ptc va fi inlocuit de call uri catre BackEnd
-            // si oricum nu merg chestii date ca parametru din cauza dependency
-            // injection ului
-            this.connectionString = connectionString;
             this.ListOfAuctions = new List<Auction>();
             this.LoadAuctionsFromDatabase();    // this is async, maybe should be awaited, constructor can't be async, might need a workaround
         }
 
         public AuctionRepository(List<Auction> listOfAuctions, string connectionString)
         {
-            this.connectionString = connectionString;
             this.ListOfAuctions = listOfAuctions;
         }
 
         private async Task LoadAuctionsFromDatabase()
         {
-            using (var httpClient = new HttpClient())
+            try
             {
-                var response = await httpClient.GetAsync("https://localhost:7100/api/Auctions");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode)
+                using (var httpClient = new HttpClient())
                 {
-                    List<Auction> auctions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Auction>>(apiResponse);
-                    foreach (var auction in auctions)
+                    var response = await httpClient.GetAsync("https://localhost:7100/api/Auctions");
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
                     {
-                        ListOfAuctions.Add(auction);
+                        List<Auction> auctions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Auction>>(apiResponse);
+                        foreach (var auction in auctions)
+                        {
+                            ListOfAuctions.Add(auction);
+                        }
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        Console.WriteLine("No auctions found");
+                    }
+                    else
+                    {
+                        throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
                     }
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine("No auctions found");
-                }
-                else
-                {
-                    throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
-                }
+            }
+            catch (HttpRequestException httpRequestException)
+            {
+                throw new Exception($"Request error: {httpRequestException.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}");
             }
         }
 
@@ -62,7 +67,7 @@ namespace Client.Model.Repositories
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    List<Auction> auctions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Auction>>(apiResponse);
+                    List<Auction> auctions = JsonConvert.DeserializeObject<List<Auction>>(apiResponse);
                     return auctions;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -87,7 +92,7 @@ namespace Client.Model.Repositories
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var users = Newtonsoft.Json.JsonConvert.DeserializeObject<Auction>(apiResponse).listOfUsers;
+                    var users = JsonConvert.DeserializeObject<Auction>(apiResponse).listOfUsers;
                     return users;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -102,9 +107,6 @@ namespace Client.Model.Repositories
             }
         }
 
-
-
-
         private List<Bid> LoadBidFromDatabase(int auctionID)
         {
             List<Bid> bids = new List<Bid>();
@@ -115,7 +117,7 @@ namespace Client.Model.Repositories
                 string apiResponse = response.Content.ReadAsStringAsync().Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    bids = Newtonsoft.Json.JsonConvert.DeserializeObject<Auction>(apiResponse).listOfBids;
+                    bids = JsonConvert.DeserializeObject<Auction>(apiResponse).listOfBids;
                     return bids;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -158,12 +160,12 @@ namespace Client.Model.Repositories
             ListOfAuctions.Add(auction);
         }
 
-        public void AddToDB(string name, string description, DateTime date, float currentMaxSum)
+        public async Task AddToDB(string name, string description, DateTime date, float currentMaxSum)
         {
+            Auction auction = new Auction(0, date, description, name, currentMaxSum);
             using (var httpClient = new HttpClient())
             {
-                Auction auction = new Auction(0, date, description, name, currentMaxSum);
-                var response = httpClient.PostAsync("https://localhost:7100/api/Auctions", new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(auction), System.Text.Encoding.UTF8, "application/json")).Result;
+                var response = await httpClient.PostAsync("https://localhost:7100/api/Auctions", new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(auction), System.Text.Encoding.UTF8, "application/json"));
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine("Auction added successfully.");
@@ -173,19 +175,63 @@ namespace Client.Model.Repositories
                     throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
                 }
             }
+
+            this.AddAuctionToRepo(auction);
         }
+
         public void RemoveAuctionFromRepo(Auction auction)
         {
             ListOfAuctions.Remove(auction);
         }
 
+        public async Task RemoveFromDB(int auctionID)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                string endpoint = $"https://localhost:7100/api/Auctions/{auctionID}";
+                var response = await httpClient.DeleteAsync(endpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Auction deleted successfully.");
+                }
+                else
+                {
+                    throw new Exception($"Error when trying to delete an auction. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+            }
+
+            this.ListOfAuctions.RemoveAll(auction => auction.auctionId == auctionID);
+        }
+
         public void UpdateAuctionIntoRepo(Auction oldauction, Auction newauction)
         {
-            int oldauctionIndex = this.ListOfAuctions.FindIndex(auction => auction == oldauction);
+            int oldauctionIndex = this.ListOfAuctions.FindIndex(auction => auction.auctionId == oldauction.auctionId);
             if (oldauctionIndex != -1)
             {
                 this.ListOfAuctions[oldauctionIndex] = newauction;
             }
+        }
+
+        public async Task UpdateIntoDB(int oldAuctionID, Auction newAuction)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                string jsonSerialized = JsonConvert.SerializeObject(newAuction);
+                var content = new StringContent(jsonSerialized, Encoding.UTF8, "application/json");
+                string endpoint = $"https://localhost:7100/api/Auctions/{oldAuctionID}";
+
+                var response = await httpClient.PutAsync(endpoint, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Auction updated successfully.");
+                }
+                else
+                {
+                    throw new Exception($"Error when trying to update an auction. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
+                }
+            }
+
+            this.UpdateAuctionIntoRepo(new Auction(oldAuctionID, new System.DateTime(2024, 21, 05, 01, 08, 02), "description", "name", 0), newAuction);
         }
 
         public float GetBidMaxSum(int index)
