@@ -1,11 +1,12 @@
 ﻿using Client.Model.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Client.Model.Repositories
 {
     public interface IProductRepository
     {
-        List<Product> GetAllProducts();
-        Product GetProduct(int productId);
+        Task<List<Product>> GetAllProducts();
+        Task<Product> GetProduct(int productId);
     }
 }
