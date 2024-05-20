@@ -1,5 +1,6 @@
 ﻿using Client.Model.Services;
 using Client.View.WindowFactory;
+using System;
 using System.Windows;
 
 namespace Client.View
@@ -30,21 +31,26 @@ namespace Client.View
                 MessageBox.Show("Please enter both username and password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-            if (_authenticationService.AuthenticateUser(username, password))
-            {
-                MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                // Proceed to the next window or dashboard
-            }
-            else
-            {
-                MessageBox.Show("Login failed. Please check your username and password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var mainWindow = _windowFactory.CreateMainWindow(username);
-            mainWindow.Show();
-            this.Close();
+            _authenticationService.AuthenticateUser(username, password).ContinueWith(succeeded => {
+                if (succeeded.Result)
+                {
+                    MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Proceed to the next window or dashboard
+                }
+                else
+                {
+                    MessageBox.Show("Login failed. Please check your username and password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                Application.Current.Dispatcher.Invoke((Action)delegate{ 
+                    // this is needed 
+                    // otherwise we cannot create windows on threads
+                    var mainWindow = _windowFactory.CreateMainWindow(username);
+                    mainWindow.Show();
+                    this.Close(); 
+                });
+                // maybe TODO : change this to only show MainWindows in case of succesful login(?)
+            });
         }
 
         private void SignUpButton_Click(object sender, RoutedEventArgs e)

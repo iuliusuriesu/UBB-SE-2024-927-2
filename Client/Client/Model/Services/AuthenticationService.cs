@@ -17,9 +17,9 @@ namespace Client.Model.Services
             _userRepository = userRepository;
         }
 
-        public bool AuthenticateUser(string username, string password)
+        public async Task<bool> AuthenticateUser(string username, string password)
         {
-            User user = this.GetUserByUsername(username);
+            User user = await this.GetUserByUsername(username);
             if (user == null)
             {
                 return false;
@@ -41,15 +41,15 @@ namespace Client.Model.Services
             _userRepository.AddUser(user);
         }
 
-        public string GetUserType(string username)
+        public async Task<string> GetUserType(string username)
         {
-            User user = this.GetUserByUsername(username);
+            User user = await this.GetUserByUsername(username);
             return user.UserType;
         }
 
-        private User GetUserByUsername(string username)
+        private async Task<User> GetUserByUsername(string username)
         {
-            List<IUser> allUsers = _userRepository.GetAllUsers();
+            List<User> allUsers = await _userRepository.GetAllUsers();
             foreach (User user in allUsers)
             {
                 if (user.Username == username)
@@ -57,7 +57,6 @@ namespace Client.Model.Services
                     return user;
                 }
             }
-
             return null;
         }
     }

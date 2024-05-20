@@ -1,6 +1,7 @@
 ﻿using Client.Model.Services;
 using Client.View.WindowFactory;
 using System.Windows;
+using System;
 
 namespace Client.View
 {
@@ -24,26 +25,44 @@ namespace Client.View
 
         private void DrugMarketplaceButton_Click(object sender, RoutedEventArgs e)
         {
-            var drugMarketplaceWindow = _windowFactory.CreateDrugMarketplaceWindow(_username);
-            drugMarketplaceWindow.Show();
-            this.Close();
+            _authenticationService.GetUserType(_username).ContinueWith(userTypeTask => {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    // this is needed 
+                    // otherwise we cannot create windows on threads
+                    var drugMarketplaceWindow = _windowFactory.CreateDrugMarketplaceWindow(_username);
+                    drugMarketplaceWindow.Show();
+                    this.Close();
+                });
+            });
         }
 
         private void AuctionsButton_Click(object sender, RoutedEventArgs e)
         {
-            string userType = _authenticationService.GetUserType(_username);
-            if (userType == "admin")
-            {
-                var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();
-                adminLiveAuctionWindow.Show();
-            }
-            else
-            {
-                var userLiveAuctionWindow = _windowFactory.CreateUserLiveAuctionWindow();
-                userLiveAuctionWindow.Show();
-            }
-
-            this.Close();
+            _authenticationService.GetUserType(_username).ContinueWith(userTypeTask => {
+                string userType=userTypeTask.Result;
+                if (userType == "admin")
+                {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        // this is needed 
+                        // otherwise we cannot create windows on threads
+                        var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();
+                        adminLiveAuctionWindow.Show();
+                    });
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((Action)delegate
+                    {
+                        // this is needed 
+                        // otherwise we cannot create windows on threads
+                        var userLiveAuctionWindow = _windowFactory.CreateUserLiveAuctionWindow();
+                        userLiveAuctionWindow.Show();
+                    });
+                }
+                this.Close();
+            });
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Client.ViewModel
 {
@@ -17,18 +18,32 @@ namespace Client.ViewModel
         public ProductViewModel(IDrugMarketplaceService drugMarketplaceService)
         {
             _drugMarketplaceService = drugMarketplaceService;
-            List<Product> products = _drugMarketplaceService.FilterProductsByName(string.Empty);
-            Products = new ObservableCollection<Product>(products);
+            Products = new ObservableCollection<Product>();
+            _drugMarketplaceService.FilterProductsByName(string.Empty).ContinueWith(products =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    // Products must be modified only on the main thread
+                    foreach (var product in products.Result)
+                        Products.Add(product);
+                });
+            });
         }
 
         public void FilterProductsByName(string text)
         {
-            List<Product> products = _drugMarketplaceService.FilterProductsByName(text);
-            Products.Clear();
-            foreach (Product product in products)
+            _drugMarketplaceService.FilterProductsByName(text).ContinueWith(productsTask =>
             {
-                Products.Add(product);
-            }
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    var products = productsTask.Result;
+                    Products.Clear();
+                    foreach (Product product in products)
+                    {
+                        Products.Add(product);
+                    }
+                });
+            });
         }
     }
 }

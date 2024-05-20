@@ -8,8 +8,8 @@ namespace Client.Model.Services
 {
     public interface IAuthenticationService
     {
-        bool AuthenticateUser(string username, string password);
+        Task<bool> AuthenticateUser(string username, string password);
         void CreateUser(string username, string password, string nickname, string userType);
-        string GetUserType(string username);
+        Task<string> GetUserType(string username);
     }
 }
