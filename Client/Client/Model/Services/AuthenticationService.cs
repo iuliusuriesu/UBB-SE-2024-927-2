@@ -37,7 +37,7 @@ namespace Client.Model.Services
 
         public void CreateUser(string username, string password, string nickname, string userType)
         {
-            User user = new User(0, username, password, nickname, userType);
+            User user = new User(0, username, nickname, password, userType);
             _userRepository.AddUser(user);
         }
 

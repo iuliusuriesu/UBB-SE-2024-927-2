@@ -49,6 +49,7 @@ namespace Client.View
                         // otherwise we cannot create windows on threads
                         var adminLiveAuctionWindow = _windowFactory.CreateAdminLiveAuctionWindow();
                         adminLiveAuctionWindow.Show();
+                        this.Close();
                     });
                 }
                 else
@@ -59,9 +60,9 @@ namespace Client.View
                         // otherwise we cannot create windows on threads
                         var userLiveAuctionWindow = _windowFactory.CreateUserLiveAuctionWindow();
                         userLiveAuctionWindow.Show();
+                        this.Close();
                     });
                 }
-                this.Close();
             });
         }
     }

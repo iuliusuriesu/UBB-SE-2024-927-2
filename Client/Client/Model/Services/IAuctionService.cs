@@ -13,7 +13,7 @@ namespace Client.Model.Services
         Task RemoveAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum);
         Task<List<Auction>> GetAuctions();
         Task UpdateAuction(int id, DateTime oldstartingDate, string olddescription, string oldname, float oldcurrentMaxSum, DateTime newstartingDate, string newdescription, string newname, float newcurrentMaxSum);
-        Task<float> GetMaxBidSum(int index);
-        void AddBid(string name, string description, DateTime date, float currentMaxSum);
+        float GetMaxBidSum(int index);
+        Task AddBid(string name, string description, DateTime date, float currentMaxSum);
     }
 }

@@ -32,16 +32,22 @@ namespace Client.View.BasicUserBiddingView
         {
             this._windowFactory = windowFactory;
             this._auctionService = auctionService;
-            auctions = new List<Auction>();
+            this.auctions = new List<Auction>();
             _auctionService.GetAuctions().ContinueWith(auctionTask =>
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    name1.Text = auctions[0].name;
-                    name2.Text = auctions[1].name;
+                    var auctions = auctionTask.Result;
+                    foreach (var auction in auctions)
+                        this.auctions.Add(auction);
+
+                    InitializeComponent();
+
+                    name1.Text = auctions[0].auctionName;
+                    name2.Text = auctions[1].auctionName;
                     //name3.Text= auctions[2].name;
-                    description1.Text = auctions[0].description;
-                    description2.Text = auctions[1].description;
+                    description1.Text = auctions[0].auctionDescription;
+                    description2.Text = auctions[1].auctionDescription;
                     //description3.Text = auctions[2].description;
                     price1.Text = auctions[0].currentMaxSum.ToString();
                     price2.Text = auctions[1].currentMaxSum.ToString();
@@ -51,7 +57,6 @@ namespace Client.View.BasicUserBiddingView
                     time2.Text = (DateTime.Now - auctions[1].startingDate).Hours.ToString();
                     //time3.Text = (DateTime.Now - auctions[2].startingDate).Hours.ToString();
 
-                    InitializeComponent();
                 });
             });
         }

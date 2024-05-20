@@ -36,7 +36,7 @@ namespace Client.View.AdminBiddingView
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     var auctions = auctionTask.Result;
-                    foreach(var auction in auctions)
+                    foreach (var auction in auctions)
                     {
                         this.auctions.Add(auction);
                     }

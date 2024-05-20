@@ -8,44 +8,45 @@ namespace Client.Model.Entities
 {
     public class Auction
     {
-        public int auctionId { get; set; }
+        public int auctionID { get; set; }
         public DateTime startingDate { get; set; }
-        public string description { get; set; }
-        public string name { get; set; }
+        public string auctionDescription { get; set; }
+        public string auctionName { get; set; }
         public float currentMaxSum { get; set; }
-        public List<User> listOfUsers { get; set; }
-        public List<Bid> listOfBids { get; set; }
-
-        public Auction(int _id, DateTime startingDate, string description, string name, float currentMaxSum, List<User> listOfUsers, List<Bid> listOfBids)
-        {
-            this.auctionId = _id;
-            this.startingDate = startingDate;
-            this.description = description;
-            this.name = name;
-            this.currentMaxSum = currentMaxSum;
-            this.listOfUsers = listOfUsers;
-            this.listOfBids = listOfBids;
-        }
+        public List<User> users { get; set; }
+        public List<Bid> bids { get; set; }
 
         public Auction(int _id, DateTime startingDate, string description, string name, float currentMaxSum)
         {
-            this.auctionId = _id;
+            this.auctionID = _id;
             this.startingDate = startingDate;
-            this.description = description;
-            this.name = name;
+            this.auctionDescription = description;
+            this.auctionName = name;
             this.currentMaxSum = currentMaxSum;
-            this.listOfUsers = new List<User>();
-            this.listOfBids = new List<Bid>();
+            this.users = new List<User>();
+            this.bids = new List<Bid>();
         }
+        public Auction() { }
+     //   public Auction(int auctionID, string auctionDescription, string auctionName, float currentMaxSum, List<String> bids)
+     //   {
+     //       this.auctionID = auctionID;
+     //       this.startingDate = DateTime.Now;
+     //       //this.startingDate = startingDate;
+     //       this.auctionDescription = auctionDescription;
+     //       this.auctionName = auctionName;
+     //       this.currentMaxSum = currentMaxSum;
+     //       this.users = new List<User>();
+     //       this.bids = new List<Bid>();
+     //   }
 
         public void AddUserToAuction(User user)
         {
-            this.listOfUsers.Add(user);
+            this.users.Add(user);
         }
 
         public void AddBidToAuction(IBid bid)
         {
-            this.listOfBids.Add((Bid)bid);
+            this.bids.Add((Bid)bid);
         }
 
     }

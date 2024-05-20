@@ -38,7 +38,7 @@ namespace Client.View.BasicUserBiddingView
             InitializeComponent();
             this.auctionIndex = auctionIndex;
             this._auctionService = auctionService;
-            //List<Auction> auctions = 
+            this.auctions = new List<Auction>();
             _auctionService.GetAuctions().ContinueWith(auctionsTask =>
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
@@ -49,14 +49,14 @@ namespace Client.View.BasicUserBiddingView
                         this.auctions.Add(auction);
                     }
 
-                    AuctionNameBid.Text = auctions[auctionIndex].name;
+                    AuctionNameBid.Text = auctions[auctionIndex].auctionName;
                     CurrentBid.Text = auctions[auctionIndex].currentMaxSum.ToString();
                     TimeLeft.Text = (DateTime.Now - auctions[auctionIndex].startingDate).Hours.ToString();
 
-                    int n = auctions[auctionIndex].listOfBids.Count;
+                    int n = auctions[auctionIndex].bids.Count;
                     for (int i = 0; i < n; i++)
                     {
-                        BidHistory.Text += auctions[auctionIndex].listOfBids[i].BidSum.ToString() + "\n";
+                        BidHistory.Text += auctions[auctionIndex].bids[i].BidSum.ToString() + "\n";
                     }
                 });
             });

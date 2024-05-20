@@ -17,12 +17,6 @@ namespace Client.Model.Repositories
             this.ListOfAuctions = new List<Auction>();
             this.LoadAuctionsFromDatabase();    // this is async, maybe should be awaited, constructor can't be async, might need a workaround
         }
-
-        public AuctionRepository(List<Auction> listOfAuctions, string connectionString)
-        {
-            this.ListOfAuctions = listOfAuctions;
-        }
-
         private async Task LoadAuctionsFromDatabase()
         {
             try
@@ -68,6 +62,10 @@ namespace Client.Model.Repositories
                 if (response.IsSuccessStatusCode)
                 {
                     List<Auction> auctions = JsonConvert.DeserializeObject<List<Auction>>(apiResponse);
+                    foreach (var auction in auctions)
+                    {
+                        auction.auctionName = auction.auctionName;
+                    }
                     return auctions;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -82,82 +80,10 @@ namespace Client.Model.Repositories
             }
         }
 
-        private async Task<List<User>> LoadUserFromDatabase(int auctionId)
-        { // this needs to be changed since the auction doesnt have the users list anymore
-          // the user list can be obtained from the Bids that have Bid.AuctionId == auctionId
-
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync($"https://localhost:7100/api/Auctions/{auctionId}");
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode)
-                {
-                    var users = JsonConvert.DeserializeObject<Auction>(apiResponse).listOfUsers;
-                    return users;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine("No auction with given id found");
-                    return null;
-                }
-                else
-                {
-                    throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
-                }
-            }
-        }
-
-        private List<Bid> LoadBidFromDatabase(int auctionID)
-        {
-            List<Bid> bids = new List<Bid>();
-
-            using (var httpClient = new HttpClient())
-            {
-                var response = httpClient.GetAsync($"https://localhost:7100/api/Auctions/{auctionID}").Result;
-                string apiResponse = response.Content.ReadAsStringAsync().Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    bids = JsonConvert.DeserializeObject<Auction>(apiResponse).listOfBids;
-                    return bids;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine("No auction with given id found.");
-                    return null;
-                }
-                else
-                {
-                    throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
-                }
-            }
-        }
-
-        private User GetUserFromDataBase(int userID)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                var response = httpClient.GetAsync($"https://localhost:7100/api/Users/{userID}").Result;
-                string apiResponse = response.Content.ReadAsStringAsync().Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    User user = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(apiResponse);
-                    return user;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine("No user with given id found.");
-                    return null;
-                }
-                else
-                {
-                    throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
-                }
-            }
-        }
-
-        public void AddAuctionToRepo(Auction auction)
+        public async Task AddAuctionToRepo(Auction auction)
         {
             ListOfAuctions.Add(auction);
+            await this.AddToDB(auction.auctionName, auction.auctionDescription, auction.startingDate, auction.currentMaxSum);
         }
 
         public async Task AddToDB(string name, string description, DateTime date, float currentMaxSum)
@@ -175,13 +101,12 @@ namespace Client.Model.Repositories
                     throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
                 }
             }
-
-            this.AddAuctionToRepo(auction);
         }
 
-        public void RemoveAuctionFromRepo(Auction auction)
+        public async Task RemoveAuctionFromRepo(Auction auction)
         {
             ListOfAuctions.Remove(auction);
+            await this.RemoveFromDB(auction.auctionID);
         }
 
         public async Task RemoveFromDB(int auctionID)
@@ -199,17 +124,17 @@ namespace Client.Model.Repositories
                     throw new Exception($"Error when trying to delete an auction. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
                 }
             }
-
-            this.ListOfAuctions.RemoveAll(auction => auction.auctionId == auctionID);
+            //this.ListOfAuctions.RemoveAll(auction => auction.auctionId == auctionID);
         }
 
-        public void UpdateAuctionIntoRepo(Auction oldauction, Auction newauction)
+        public async Task UpdateAuctionIntoRepo(Auction oldauction, Auction newauction)
         {
-            int oldauctionIndex = this.ListOfAuctions.FindIndex(auction => auction.auctionId == oldauction.auctionId);
+            int oldauctionIndex = this.ListOfAuctions.FindIndex(auction => auction.auctionID == oldauction.auctionID);
             if (oldauctionIndex != -1)
             {
                 this.ListOfAuctions[oldauctionIndex] = newauction;
             }
+            await UpdateIntoDB(oldauction.auctionID, newauction);
         }
 
         public async Task UpdateIntoDB(int oldAuctionID, Auction newAuction)
@@ -230,8 +155,6 @@ namespace Client.Model.Repositories
                     throw new Exception($"Error when trying to update an auction. Status code: {response.StatusCode}, Reason: {response.ReasonPhrase}");
                 }
             }
-
-            this.UpdateAuctionIntoRepo(new Auction(oldAuctionID, new System.DateTime(2024, 21, 05, 01, 08, 02), "description", "name", 0), newAuction);
         }
 
         public float GetBidMaxSum(int index)

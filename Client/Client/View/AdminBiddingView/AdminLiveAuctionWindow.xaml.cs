@@ -33,6 +33,7 @@ namespace Client.View.AdminBiddingView
             this._windowFactory = windowFactory;
             this._auctionService = auctionService;
             //auctions = _auctionService.GetAuctions();
+            auctions = new List<Auction>();
             _auctionService.GetAuctions().ContinueWith(auctionTask =>
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
@@ -45,11 +46,11 @@ namespace Client.View.AdminBiddingView
 
                     InitializeComponent();
 
-                    name1.Text = auctions[0].name;
-                    name2.Text = auctions[1].name;
+                    name1.Text = auctions[0].auctionName;
+                    name2.Text = auctions[1].auctionName;
                     //name3.Text = auctions[3].name;
-                    description1.Text = auctions[0].description;
-                    description2.Text = auctions[1].description;
+                    description1.Text = auctions[0].auctionDescription;
+                    description2.Text = auctions[1].auctionDescription;
                     //description3.Text = auctions[2].description;
                     price1.Text = auctions[0].currentMaxSum.ToString();
                     price2.Text = auctions[1].currentMaxSum.ToString();

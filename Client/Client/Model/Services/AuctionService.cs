@@ -18,28 +18,28 @@ namespace Client.Model.Services
             this.AuctionRepository = auctionRepository;
         }
 
-        public void AddAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
+        public async Task AddAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
         {
             Auction auction = new Auction(id, startingDate, description, name, currentMaxSum);
-            this.AuctionRepository.AddAuctionToRepo(auction);
+            await this.AuctionRepository.AddAuctionToRepo(auction);
         }
 
-        public void RemoveAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
+        public async Task RemoveAuction(int id, DateTime startingDate, string description, string name, float currentMaxSum)
         {
             Auction auction = new Auction(id, startingDate, description, name, currentMaxSum);
-            this.AuctionRepository.RemoveAuctionFromRepo(auction);
+            await this.AuctionRepository.RemoveAuctionFromRepo(auction);
         }
 
-        public List<Auction> GetAuctions()
+        public async Task<List<Auction>> GetAuctions()
         {
-            return this.AuctionRepository.ListOfAuctions;
+            return await this.AuctionRepository.GetAllAuctions();
         }
 
-        public void UpdateAuction(int id, DateTime oldstartingDate, string olddescription, string oldname, float oldcurrentMaxSum, DateTime newstartingDate, string newdescription, string newname, float newcurrentMaxSum)
+        public async Task UpdateAuction(int id, DateTime oldstartingDate, string olddescription, string oldname, float oldcurrentMaxSum, DateTime newstartingDate, string newdescription, string newname, float newcurrentMaxSum)
         {
             Auction oldauction = new Auction(id, oldstartingDate, olddescription, oldname, oldcurrentMaxSum);
             Auction newauction = new Auction(id, newstartingDate, newdescription, newname, newcurrentMaxSum);
-            this.AuctionRepository.UpdateAuctionIntoRepo(oldauction, newauction);
+            await this.AuctionRepository.UpdateAuctionIntoRepo(oldauction, newauction);
         }
 
         public float GetMaxBidSum(int index)
@@ -47,9 +47,9 @@ namespace Client.Model.Services
             return this.AuctionRepository.GetBidMaxSum(index);
         }
 
-        public void AddBid(string name, string description, DateTime date, float currentMaxSum)
+        public async Task AddBid(string name, string description, DateTime date, float currentMaxSum)
         {
-            this.AuctionRepository.AddToDB(name, description, date, currentMaxSum);
+            await this.AuctionRepository.AddAuctionToRepo(new Auction(0, date, description, name, currentMaxSum));
         }
     }
 }

@@ -51,15 +51,15 @@ namespace Client.View.BasicUserBiddingView
 
                     InitializeComponent();
 
-                    AuctionNameBid.Text = auctions[auctionIndex].name;
+                    AuctionNameBid.Text = auctions[auctionIndex].auctionName;
                     CurrentBid.Text = auctions[auctionIndex].currentMaxSum.ToString();
                     TimeLeft.Text = (DateTime.Now - auctions[auctionIndex].startingDate).Hours.ToString();
 
 
-                    int n = auctions[auctionIndex].listOfBids.Count;
+                    int n = auctions[auctionIndex].bids.Count;
                     for (int i = 0; i < n; i++)
                     {
-                        BidHistory.Text += auctions[auctionIndex].listOfBids[i].BidSum.ToString() + "\n";
+                        BidHistory.Text += auctions[auctionIndex].bids[i].BidSum.ToString() + "\n";
                     }
                 });
             });
@@ -87,6 +87,7 @@ namespace Client.View.BasicUserBiddingView
             }
             suminput = Convert.ToInt32(SumInput.Text);
             BidHistory.Text += suminput.ToString() + "\n";
+            //this._auctionService.//AddBid()
         }
     }
 }
