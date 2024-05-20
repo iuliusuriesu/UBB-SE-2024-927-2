@@ -24,15 +24,13 @@ namespace Client.View.BasicUserBiddingView
     public partial class UserLiveAuctionWindow : Window
     {
         private IWindowFactory _windowFactory;
-        public IBidService _bidService;
         public IAuctionService _auctionService;
 
         public List<Auction> auctions;
 
-        public UserLiveAuctionWindow(IWindowFactory windowFactory, IBidService bidService, IAuctionService auctionService)
+        public UserLiveAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService)
         {
             this._windowFactory = windowFactory;
-            this._bidService = bidService;
             this._auctionService = auctionService;
             auctions = _auctionService.GetAuctions();
 

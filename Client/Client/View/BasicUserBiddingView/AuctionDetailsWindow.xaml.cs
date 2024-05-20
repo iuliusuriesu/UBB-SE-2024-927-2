@@ -28,18 +28,16 @@ namespace Client.View.BasicUserBiddingView
         public int auctionIndex;
 
         public IAuctionService _auctionService;
-        public IBidService _bidService;
 
         public List<Bid> bidModels;
         public List<Auction> auctions;
 
-        public AuctionDetailsWindow(IWindowFactory windowFactory, IAuctionService auctionService, IBidService bidService, int auctionIndex)
+        public AuctionDetailsWindow(IWindowFactory windowFactory, IAuctionService auctionService, int auctionIndex)
         {
             this._windowFactory = windowFactory;
             InitializeComponent();
             this.auctionIndex = auctionIndex;
             this._auctionService = auctionService;
-            this._bidService = bidService;
             List<Auction> auctions = _auctionService.GetAuctions();
 
             AuctionNameBid.Text = auctions[auctionIndex].name;

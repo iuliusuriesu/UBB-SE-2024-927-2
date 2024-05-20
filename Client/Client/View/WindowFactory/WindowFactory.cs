@@ -54,8 +54,7 @@ namespace Client.View.WindowFactory
         {
             var auctionRepo = serviceProvider.GetRequiredService<IAuctionRepository>();
             var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
-            var bidService = serviceProvider.GetRequiredService<IBidService>();
-            return new AdminLiveAuctionWindow(this, auctionService, bidService);
+            return new AdminLiveAuctionWindow(this, auctionService);
         }
 
         public AddAuctionWindow CreateAddAuctionWindow()
@@ -67,23 +66,20 @@ namespace Client.View.WindowFactory
         public UserLiveAuctionWindow CreateUserLiveAuctionWindow()
         {
             var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
-            var bidService = serviceProvider.GetRequiredService<IBidService>();
 
-            return new UserLiveAuctionWindow(this, bidService, auctionService);
+            return new UserLiveAuctionWindow(this, auctionService);
         }
 
         public AuctionDetailsWindow CreateAuctionDetailsWindow(int auctionIndex)
         {
             var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
-            var bidService = serviceProvider.GetRequiredService<IBidService>();
-            return new AuctionDetailsWindow(this, auctionService, bidService, auctionIndex);
+            return new AuctionDetailsWindow(this, auctionService, auctionIndex);
         }
 
         public EnterAuctionWindow CreateEnterAuctionWindow(int auctionIndex)
         {
             var auctionService = serviceProvider.GetRequiredService<IAuctionService>();
-            var bidService = serviceProvider.GetRequiredService<IBidService>();
-            return new EnterAuctionWindow(this, auctionService, bidService, auctionIndex);
+            return new EnterAuctionWindow(this, auctionService, auctionIndex);
         }
     }
 }

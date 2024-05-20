@@ -25,15 +25,13 @@ namespace Client.View.AdminBiddingView
         private IWindowFactory _windowFactory;
 
         public IAuctionService _auctionService;
-        public IBidService _bidService;
 
         public List<Auction> auctions;
 
-        public AdminLiveAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService, IBidService bidService)
+        public AdminLiveAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService)
         {
             this._windowFactory = windowFactory;
             this._auctionService = auctionService;
-            this._bidService = bidService;
 
             auctions = _auctionService.GetAuctions();
 

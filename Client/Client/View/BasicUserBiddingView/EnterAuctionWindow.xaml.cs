@@ -28,17 +28,15 @@ namespace Client.View.BasicUserBiddingView
         public int auctionIndex;
 
         public IAuctionService _auctionService;
-        public IBidService _bidService;
 
         public List<Bid> bidModels;
         public List<Auction> auctions;
 
-        public EnterAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService, IBidService bidService, int auctionIndex)
+        public EnterAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService, int auctionIndex)
         {
             this._windowFactory = windowFactory;
             this.auctionIndex = auctionIndex;
             this._auctionService = auctionService;
-            this._bidService = bidService;
 
             this.auctions = _auctionService.GetAuctions();
 

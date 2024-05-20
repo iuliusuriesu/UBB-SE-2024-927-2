@@ -24,7 +24,6 @@ namespace Client.View.AdminBiddingView
     {
         private IWindowFactory _windowFactory;
         public IAuctionService _auctionService;
-        public IBidService _bidService;
         public List<Auction> auctions;
 
         public AddAuctionWindow(IWindowFactory windowFactory, IAuctionService auctionService)
