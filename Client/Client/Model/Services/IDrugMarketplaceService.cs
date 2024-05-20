@@ -9,8 +9,8 @@ namespace Client.Model.Services
 {
     public interface IDrugMarketplaceService
     {
-        void AddToShoppingCart(int productId);
-        List<Product> FilterProductsByName(string text);
+        Task AddToShoppingCart(int productId);
+        Task<List<Product>> FilterProductsByName(string text);
         List<Product> GetShoppingCart();
     }
 }

@@ -49,7 +49,7 @@ namespace Client.Model.Services
 
         private User GetUserByUsername(string username)
         {
-            List<User> allUsers = _userRepository.GetAllUsers();
+            List<IUser> allUsers = _userRepository.GetAllUsers();
             foreach (User user in allUsers)
             {
                 if (user.Username == username)
