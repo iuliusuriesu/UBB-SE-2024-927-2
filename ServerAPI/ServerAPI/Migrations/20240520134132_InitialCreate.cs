@@ -52,17 +52,11 @@ namespace ServerAPI.Migrations
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AuctionID = table.Column<int>(type: "int", nullable: true)
+                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
-                    table.ForeignKey(
-                        name: "FK_Users_Auctions_AuctionID",
-                        column: x => x.AuctionID,
-                        principalTable: "Auctions",
-                        principalColumn: "AuctionID");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,40 +67,35 @@ namespace ServerAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BidSum = table.Column<float>(type: "real", nullable: false),
                     TimeOfBid = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    AuctionID = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bids", x => x.BidId);
                     table.ForeignKey(
-                        name: "FK_Bids_Auctions_AuctionID",
-                        column: x => x.AuctionID,
+                        name: "FK_Bids_Auctions_AuctionId",
+                        column: x => x.AuctionId,
                         principalTable: "Auctions",
                         principalColumn: "AuctionID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bids_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Bids_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bids_AuctionID",
+                name: "IX_Bids_AuctionId",
                 table: "Bids",
-                column: "AuctionID");
+                column: "AuctionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bids_UserID",
+                name: "IX_Bids_UserId",
                 table: "Bids",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_AuctionID",
-                table: "Users",
-                column: "AuctionID");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -119,10 +108,10 @@ namespace ServerAPI.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Auctions");
 
             migrationBuilder.DropTable(
-                name: "Auctions");
+                name: "Users");
         }
     }
 }

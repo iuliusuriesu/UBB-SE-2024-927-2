@@ -7,7 +7,6 @@
         public string Nickname { get; set; }
         public string Password { get; set; }
         public string UserType { get; set; }
-        List<Bid> Bids { get; set; }
-        List<Auction> Auctions { get; set; }
+        public List<Bid> Bids { get; } = new List<Bid>();
     }
 }

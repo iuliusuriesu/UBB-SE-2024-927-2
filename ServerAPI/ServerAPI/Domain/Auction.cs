@@ -9,7 +9,6 @@ namespace ServerAPI.Domain
         public string AuctionName { get; set; }
         public float CurrentMaxSum { get; set; }
         DateTime DateOfStart { get; set; }
-        public List<User> Users {  get; set; }
-        public List<Bid> Bids {  get; set; }
+        public List<Bid> Bids {  get; } = new List<Bid>();
     }
 }

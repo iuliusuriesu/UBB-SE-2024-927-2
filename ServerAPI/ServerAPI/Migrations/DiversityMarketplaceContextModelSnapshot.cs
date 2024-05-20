@@ -54,7 +54,7 @@ namespace ServerAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BidId"));
 
-                    b.Property<int>("AuctionID")
+                    b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<float>("BidSum")
@@ -63,14 +63,14 @@ namespace ServerAPI.Migrations
                     b.Property<DateTime>("TimeOfBid")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("BidId");
 
-                    b.HasIndex("AuctionID");
+                    b.HasIndex("AuctionId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bids");
                 });
@@ -114,9 +114,6 @@ namespace ServerAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<int?>("AuctionID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nickname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -135,8 +132,6 @@ namespace ServerAPI.Migrations
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("AuctionID");
-
                     b.ToTable("Users");
                 });
 
@@ -144,13 +139,13 @@ namespace ServerAPI.Migrations
                 {
                     b.HasOne("ServerAPI.Domain.Auction", "Auction")
                         .WithMany("Bids")
-                        .HasForeignKey("AuctionID")
+                        .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ServerAPI.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -159,18 +154,9 @@ namespace ServerAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ServerAPI.Domain.User", b =>
-                {
-                    b.HasOne("ServerAPI.Domain.Auction", null)
-                        .WithMany("Users")
-                        .HasForeignKey("AuctionID");
-                });
-
             modelBuilder.Entity("ServerAPI.Domain.Auction", b =>
                 {
                     b.Navigation("Bids");
-
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

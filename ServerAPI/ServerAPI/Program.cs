@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using ServerAPI.Domain;
 
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+
+//builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<DiversityMarketplaceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DiversityMarketplaceContext")));

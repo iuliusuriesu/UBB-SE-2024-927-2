@@ -72,14 +72,41 @@ namespace ServerAPI.Controllers
             return NoContent();
         }
 
+       // [HttpPost]
+       // public async Task<ActionResult<Bid>> PostBid12(Bid bid)
+       // {
+       //     _context.Bids.Add(bid);
+       //     await _context.SaveChangesAsync();
+
+       //     return CreatedAtAction("GetBid", new { id = bid.BidId }, bid);
+       // }
         // POST: api/Bids
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bid>> PostBid(Bid bid)
+        public async Task<ActionResult<Bid>> PostBid(int userId, int auctionId, float bidSum)
         {
+            /*
             _context.Bids.Add(bid);
             await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetBid", new { id = bid.BidId }, bid);
+
+             */
+            var bids = _context.Bids.Where(bid=>bid.AuctionId == auctionId);
+
+            var auction = _context.Auctions.Where(auction => auction.AuctionID == auctionId).First();
+            var user = _context.Users.Where(user => user.UserID == userId).First();
+            Bid bid = new Bid();
+            bid.BidSum = bidSum;
+            bid.TimeOfBid = DateTime.Now;
+            bid.Auction = auction;
+            bid.User = user; 
+            auction.Bids.Add(bid);
+            user.Bids.Add(bid);
+            _context.Bids.Add(bid);
+            _context.Entry(auction).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return CreatedAtAction("GetBid", new { id = bid.BidId }, bid);
         }
 
