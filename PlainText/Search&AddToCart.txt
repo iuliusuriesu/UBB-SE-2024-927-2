@@ -1,0 +1,26 @@
+@startuml
+actor User
+
+User -> DrugMarketplaceWindow: Clicks Search Button
+DrugMarketplaceWindow -> IProductViewModel: FilterProductsByName(text)
+
+User -> DrugMarketplaceWindow: Clicks Add to Cart Button
+DrugMarketplaceWindow -> DrugListListView: Gets Selected Item
+DrugMarketplaceWindow -> IDrugMarketplaceService: AddToShoppingCart(selectedProduct.ProductID)
+IDrugMarketplaceService -> IProductRepository: GetProduct(productId)
+IDrugMarketplaceService -> DrugMarketplaceWindow: Return (success/failure)
+DrugMarketplaceWindow -> User: Displays success/failure message
+
+User -> DrugMarketplaceWindow: Clicks Cart Button
+DrugMarketplaceWindow -> IWindowFactory: CreateShoppingCartWindow(username)
+IWindowFactory -> ShoppingCartWindow: Create Instance
+DrugMarketplaceWindow -> ShoppingCartWindow: Show Window
+DrugMarketplaceWindow -> DrugMarketplaceWindow: Close Current Window
+
+User -> ShoppingCartWindow: Clicks Back to Main Menu Button
+ShoppingCartWindow -> IWindowFactory: CreateDrugMarketplaceWindow(username)
+IWindowFactory -> DrugMarketplaceWindow: Create Instance
+ShoppingCartWindow -> DrugMarketplaceWindow: Show Window
+ShoppingCartWindow -> ShoppingCartWindow: Close Current Window
+
+@enduml

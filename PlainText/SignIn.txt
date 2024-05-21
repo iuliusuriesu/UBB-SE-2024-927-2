@@ -1,0 +1,47 @@
+@startuml
+actor User
+participant LogInWindow
+participant AuthenticationService
+participant UserRepository
+participant Server
+participant Database
+participant IWindowFactory
+participant MainWindow
+
+entryspacing 0.9
+User -> LogInWindow: clicks SignInButton
+LogInWindow -> LogInWindow: reads username
+LogInWindow -> LogInWindow: reads password
+alt username or password is empty
+    LogInWindow -> LogInWindow: show error MessageBox
+    LogInWindow -> User: return
+else
+    LogInWindow -> AuthenticationService: AuthenticateUser(username, password)
+    AuthenticationService -> AuthenticationService: GetUserByUsername(username)
+    AuthenticationService -> UserRepository: GetAllUsers()
+    UserRepository -> Server: GET /api/Users
+    Server -> Database: query all users
+    Database --> Server: return all users
+    Server --> UserRepository: returns user data
+    UserRepository --> AuthenticationService: returns all users
+    AuthenticationService -> AuthenticationService: find user by username
+    alt user not found
+        AuthenticationService --> LogInWindow: return false
+        LogInWindow -> LogInWindow: show error MessageBox
+        LogInWindow -> User: return
+    else
+        alt password matches
+            AuthenticationService --> LogInWindow: return true
+            LogInWindow -> LogInWindow: show success MessageBox
+            LogInWindow -> IWindowFactory: CreateMainWindow(username)
+            IWindowFactory --> LogInWindow: returns MainWindow
+            LogInWindow -> MainWindow: show
+            LogInWindow -> LogInWindow: close
+        else
+            AuthenticationService --> LogInWindow: return false
+            LogInWindow -> LogInWindow: show error MessageBox
+            LogInWindow -> User: return
+        end
+    end
+end
+@enduml

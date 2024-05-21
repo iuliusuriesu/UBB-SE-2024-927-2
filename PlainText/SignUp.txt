@@ -1,0 +1,39 @@
+@startuml
+actor User
+participant SignUpWindow
+participant AuthenticationService
+participant UserRepository
+participant Server
+participant Database
+participant IWindowFactory
+participant LogInWindow
+
+User -> SignUpWindow: clicks SignUpButton
+SignUpWindow -> SignUpWindow: reads username, password, confirmPassword, nickname, accountType
+alt validation fails
+    SignUpWindow -> SignUpWindow: show error MessageBox
+    SignUpWindow -> User: return
+else
+    SignUpWindow -> AuthenticationService: CreateUser(username, password, nickname, accountType)
+    AuthenticationService -> UserRepository: AddUser(new User(username, password, nickname, accountType))
+    UserRepository -> Server: POST /api/Users
+    Server -> Database: insert new user
+    Database --> Server: return success
+    alt user creation fails
+        Server --> UserRepository: return error
+        UserRepository --> AuthenticationService: throw Exception
+        AuthenticationService --> SignUpWindow: throw Exception
+        SignUpWindow -> SignUpWindow: show error MessageBox
+        SignUpWindow -> User: return
+    else
+        Server --> UserRepository: return success
+        UserRepository --> AuthenticationService: return success
+        AuthenticationService --> SignUpWindow: return success
+        SignUpWindow -> SignUpWindow: show success MessageBox
+        SignUpWindow -> IWindowFactory: CreateLogInWindow()
+        IWindowFactory --> SignUpWindow: returns LogInWindow
+        SignUpWindow -> LogInWindow: show
+        SignUpWindow -> SignUpWindow: close
+    end
+end
+@enduml

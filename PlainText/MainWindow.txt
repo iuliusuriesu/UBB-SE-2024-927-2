@@ -1,0 +1,50 @@
+@startuml
+actor User
+
+' User interactions with MainWindow
+User -> MainWindow: Clicks Drug Marketplace Button
+MainWindow -> IWindowFactory: CreateDrugMarketplaceWindow(username)
+IWindowFactory -> DrugMarketplaceWindow: Create Instance
+MainWindow -> DrugMarketplaceWindow: Show Window
+MainWindow -> MainWindow: Close Current Window
+
+User -> MainWindow: Clicks Auctions Button
+MainWindow -> IAuthenticationService: GetUserType(username)
+IAuthenticationService -> MainWindow: Return UserType
+
+alt UserType is "admin"
+    MainWindow -> IWindowFactory: CreateAdminLiveAuctionWindow()
+    IWindowFactory -> AdminLiveAuctionWindow: Create Instance
+    MainWindow -> AdminLiveAuctionWindow: Show Window
+else UserType is "basic"
+    MainWindow -> IWindowFactory: CreateUserLiveAuctionWindow()
+    IWindowFactory -> UserLiveAuctionWindow: Create Instance
+    MainWindow -> UserLiveAuctionWindow: Show Window
+end
+MainWindow -> MainWindow: Close Current Window
+
+' User interactions with DrugMarketplaceWindow
+User -> DrugMarketplaceWindow: Clicks Search Button
+DrugMarketplaceWindow -> IProductViewModel: FilterProductsByName(text)
+
+User -> DrugMarketplaceWindow: Clicks Add to Cart Button
+DrugMarketplaceWindow -> DrugListListView: Gets Selected Item
+DrugMarketplaceWindow -> IDrugMarketplaceService: AddToShoppingCart(selectedProduct.ProductID)
+IDrugMarketplaceService -> IProductRepository: GetProduct(productId)
+IDrugMarketplaceService -> DrugMarketplaceWindow: Return (success/failure)
+DrugMarketplaceWindow -> User: Displays success/failure message
+
+User -> DrugMarketplaceWindow: Clicks Cart Button
+DrugMarketplaceWindow -> IWindowFactory: CreateShoppingCartWindow(username)
+IWindowFactory -> ShoppingCartWindow: Create Instance
+DrugMarketplaceWindow -> ShoppingCartWindow: Show Window
+DrugMarketplaceWindow -> DrugMarketplaceWindow: Close Current Window
+
+' User interactions with ShoppingCartWindow
+User -> ShoppingCartWindow: Clicks Back to Main Menu Button
+ShoppingCartWindow -> IWindowFactory: CreateDrugMarketplaceWindow(username)
+IWindowFactory -> DrugMarketplaceWindow: Create Instance
+ShoppingCartWindow -> DrugMarketplaceWindow: Show Window
+ShoppingCartWindow -> ShoppingCartWindow: Close Current Window
+
+@enduml
